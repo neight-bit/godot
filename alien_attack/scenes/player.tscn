@@ -8,6 +8,7 @@ radius = 27.0
 height = 92.0
 
 [node name="Player" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1_vygou")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
