@@ -19,3 +19,5 @@ texture = ExtResource("1_wclj0")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_igl2l")
+
+[node name="RocketContainer" type="Node" parent="."]
