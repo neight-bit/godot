@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal took_damage
+
 var speed = 350
 
 var rocket_scene = preload("res://scenes/rocket.tscn")
@@ -15,7 +17,6 @@ func _process(delta):
 		shoot()
 
 func _physics_process(delta):
-
 	velocity = Vector2(0, 0)
 	if Input.is_action_pressed("move_right"):
 		velocity.x = speed
@@ -36,3 +37,11 @@ func shoot():
 	ROCKET_CONTAINER.add_child(rocket_instance)
 	rocket_instance.global_position = global_position
 	rocket_instance.global_position.x += 50
+
+func take_damage():
+	emit_signal("took_damage")
+	
+func die():
+	queue_free()
+	
+	
