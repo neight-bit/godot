@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://dq35661otfxcv"]
+
+[ext_resource type="FontFile" uid="uid://c6owhus0mubib" path="res://assets/font/Kenney Blocks.ttf" id="1_5pj3k"]
+[ext_resource type="Script" path="res://scripts/hud.gd" id="1_dj6aj"]
+[ext_resource type="Script" path="res://scripts/lives.gd" id="3_emq3a"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i0q1u"]
+font = ExtResource("1_5pj3k")
+font_size = 48
+
+[sub_resource type="LabelSettings" id="LabelSettings_3njhj"]
+font = ExtResource("1_5pj3k")
+font_size = 48
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dj6aj")
+
+[node name="Score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 939.0
+offset_top = 20.0
+offset_right = 1155.0
+offset_bottom = 92.0
+text = "SCORE: "
+label_settings = SubResource("LabelSettings_i0q1u")
+
+[node name="Lives" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("3_emq3a")
+
+[node name="Label" type="Label" parent="Lives"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 224.0
+offset_bottom = 92.0
+text = "Lives:"
+label_settings = SubResource("LabelSettings_3njhj")
+
+[node name="LivesContainer" type="HBoxContainer" parent="Lives"]
+clip_contents = true
+layout_mode = 0
+offset_left = 227.0
+offset_top = 38.0
+offset_right = 575.0
+offset_bottom = 81.0
