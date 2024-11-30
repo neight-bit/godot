@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-signal took_damage
+signal took_damage(player_instance)
 
 var speed = 350
 
@@ -39,7 +39,7 @@ func shoot():
 	rocket_instance.global_position.x += 50
 
 func take_damage():
-	emit_signal("took_damage")
+	emit_signal("took_damage", self)
 	
 func die():
 	queue_free()

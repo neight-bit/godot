@@ -1,6 +1,6 @@
 extends Area2D
 
-signal enemy_died
+signal enemy_died(death_type)
 
 @export var speed = 300
 
@@ -9,10 +9,10 @@ signal enemy_died
 func _physics_process(delta):
 	global_position.x += -speed*delta
 
-func die():
-	emit_signal("enemy_died")
+func die(death_type):
+	emit_signal("enemy_died", death_type)
 	queue_free()
 
 func _on_body_entered(body):
 	body.take_damage()
-	die()
+	die("player_collision")

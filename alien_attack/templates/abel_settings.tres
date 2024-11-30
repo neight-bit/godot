@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://d10g2uqk6tu3n"]
+
+[ext_resource type="FontFile" uid="uid://c6owhus0mubib" path="res://assets/font/Kenney Blocks.ttf" id="1_v2bvu"]
+
+[resource]
+font = ExtResource("1_v2bvu")
+font_size = 48
+font_color = Color(0.72, 0.2232, 0.2232, 1)

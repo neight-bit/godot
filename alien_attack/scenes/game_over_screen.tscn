@@ -1,15 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://cskwptengf8nk"]
+[gd_scene load_steps=5 format=3 uid="uid://cskwptengf8nk"]
+
+[ext_resource type="Script" path="res://scripts/game_over_screen.gd" id="1_7cd7x"]
+[ext_resource type="LabelSettings" uid="uid://d10g2uqk6tu3n" path="res://templates/abel_settings.tres" id="2_nld08"]
+[ext_resource type="FontFile" uid="uid://c6owhus0mubib" path="res://assets/font/Kenney Blocks.ttf" id="3_w2nc1"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t0isd"]
-bg_color = Color(0.0884, 0.10064, 0.17, 1)
+bg_color = Color(0.156, 0.1776, 0.3, 1)
 
 [node name="GameOverScreen" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_7cd7x")
 
 [node name="Panel" type="Panel" parent="."]
 layout_mode = 1
@@ -25,3 +32,51 @@ offset_bottom = 246.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_t0isd")
+
+[node name="Game Over" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -156.0
+offset_top = 46.0
+offset_right = 156.0
+offset_bottom = 118.0
+grow_horizontal = 2
+text = "GAME OVER"
+label_settings = ExtResource("2_nld08")
+
+[node name="Score" type="Label" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -91.0
+offset_right = 180.0
+offset_bottom = -19.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "SCORE: 9999"
+label_settings = ExtResource("2_nld08")
+
+[node name="RetryButton" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -153.0
+offset_top = 9.0
+offset_right = 153.0
+offset_bottom = 89.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_w2nc1")
+theme_override_font_sizes/font_size = 48
+text = "Retry"
+
+[connection signal="pressed" from="Panel/RetryButton" to="." method="_on_retry_button_pressed"]

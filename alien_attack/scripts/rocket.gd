@@ -15,4 +15,4 @@ func _on_screen_exited():
 
 func _on_area_entered(enemy_area):
 	queue_free()
-	enemy_area.die()
+	enemy_area.die("rocket")
