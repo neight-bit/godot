@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://f2o7mlu8m06j"]
+
+[ext_resource type="Script" path="res://scritps/player.gd" id="1_drxhn"]
+[ext_resource type="Script" path="res://scritps/state_machine.gd" id="2_xs84i"]
+[ext_resource type="Script" path="res://scritps/state.gd" id="3_4j72j"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0v3yh"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tw8kx"]
+radius = 24.0
+height = 104.348
+
+[node name="player" type="CharacterBody2D"]
+script = ExtResource("1_drxhn")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+offset_left = 368.0
+offset_top = 216.0
+offset_right = 416.0
+offset_bottom = 305.0
+scale = Vector2(0.991829, 1.07339)
+texture = SubResource("PlaceholderTexture2D_0v3yh")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(392, 264)
+scale = Vector2(1, -0.92)
+shape = SubResource("CapsuleShape2D_tw8kx")
+
+[node name="state_machine" type="Node" parent="."]
+script = ExtResource("2_xs84i")
+
+[node name="state" type="Node" parent="state_machine"]
+script = ExtResource("3_4j72j")
