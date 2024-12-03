@@ -3,13 +3,18 @@ extends Node
 
 @export
 var animation_name: String
+
 @export
 var move_speed: float = 300
 
-var parent: Player
+var parent: CharacterBody2D
+var animations: AnimatedSprite2D
+var move_component: Node
+var gravity : int = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func enter() -> void:
-	parent.animations.play(animation_name)
+	if animation_name:
+		animations.play(animation_name)
 
 func exit() -> void:
 	pass
