@@ -10,8 +10,8 @@ func process_physics(delta: float) -> State:
 	parent.velocity.y += gravity * delta
 
 	var movement = move_component.get_movement_direction() * move_speed
-	if movement != 0:
-		parent.animations.flip_h = movement < 0
+	if movement != 0 and animations:
+		parent.animations.flip_h = movement > 0
 	parent.velocity.x = movement
 	parent.move_and_slide()
 	

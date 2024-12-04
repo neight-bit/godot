@@ -10,6 +10,7 @@ var state_machine = $state_machine
 @onready
 var move_component = $move_component
 
+var acceleration: float
 
 func _ready() -> void:
 	# Initialize the state machine, passing a reference of the player to the states,

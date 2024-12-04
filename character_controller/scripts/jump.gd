@@ -12,6 +12,7 @@ var idle_state: State
 @export
 var jump_force: float = 900.0
 
+
 func enter() -> void:
 	super()
 	parent.velocity.y = -jump_force
@@ -22,7 +23,7 @@ func process_physics(delta: float) -> State:
 		return fall_state
 	
 	var movement  = move_component.get_movement_direction()
-	if movement != 0:
+	if movement != 0 and animations:
 		animations.flip_h = movement < 0
 	parent.velocity.x = movement
 	parent.move_and_slide()
