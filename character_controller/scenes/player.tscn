@@ -33,10 +33,7 @@ shape = SubResource("CapsuleShape2D_tw8kx")
 
 [node name="move_component" type="Node" parent="."]
 script = ExtResource("4_wdira")
-jump_height = 300.0
-jump_time_to_peak = 0.5
-jump_time_to_descent = 0.4
-air_control = 2200.0
+max_speed = 800.0
 
 [node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_xs84i")

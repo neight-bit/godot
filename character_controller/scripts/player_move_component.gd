@@ -1,22 +1,28 @@
 extends Node
 
 @export
-var move_speed: float = 200
+var base_move_speed: float = 200
 
 @export
 var max_speed: float = 1000
 
 @export
-var jump_height: float
+var acceleration: float = 1500
 
 @export
-var jump_time_to_peak: float
+var deceleration_factor: float = 2.0
 
 @export
-var jump_time_to_descent: float
+var jump_height: float = 200
 
 @export
-var air_control: float
+var jump_time_to_peak: float = .5
+
+@export
+var jump_time_to_descent: float = .4
+
+@export
+var air_control: float = 1600
 
 var parent: CharacterBody2D
 
@@ -34,7 +40,26 @@ func get_movement_direction() -> float:
 func wants_jump() -> bool:
 	return Input.is_action_just_pressed('jump')
 
-func get_airborne_velocity(delta, initial_horizontal_velocity) -> float:
+func get_parent_acceleration() -> float:
+	'''Run acceleration can be flipped on/off on a per-character basis'''
+	if (parent.get("has_acceleration") and parent.has_acceleration):
+		if (parent.get("acceleration_factor") and parent.acceleration_factor):
+			acceleration = parent.acceleration_factor
+		return acceleration
+	else: 
+		return 0.0
+
+func get_parent_deceleration():
+	"""Check if the character is reversing direction or stopping,"""
+	if (parent.get("has_acceleration") and parent.has_acceleration):
+		if (parent.get("deceleration_factor") and parent.deceleration_factor):
+			deceleration_factor = parent.deceleration_factor
+	if sign(parent.velocity.x) != sign(get_movement_direction()):
+		return deceleration_factor
+	else:
+		return 1.0
+	
+func get_airborne_velocity(delta: float, initial_horizontal_velocity: float) -> float:
 	var direction: float = get_movement_direction()
 	var target_velocity = abs(initial_horizontal_velocity) * direction
 	var max_allowed_speed = max(
@@ -57,8 +82,27 @@ func get_airborne_velocity(delta, initial_horizontal_velocity) -> float:
 			air_control * delta
 	)
 	return clamped_velocity
-	#return move_toward(
-		#parent.velocity.x, 
-		#direction * max_speed, 
-		#air_control * delta
-	#)
+
+
+func get_grounded_velocity(delta: float):
+	"""Velocity can be determined via upstream properties to either be a flat value, or use accleration"""
+	var velocity: float
+	var move_direction: float = get_movement_direction()
+	
+	# Get acceleration from character or use default setting
+	acceleration = get_parent_acceleration()
+	# Get deceleration factor 
+	# How quickly does the character turn around or come to a stop
+	var deceleration = get_parent_deceleration()
+
+	if acceleration > 0:
+		velocity = move_toward(
+			parent.velocity.x, 
+			move_direction * max_speed, 
+			acceleration * deceleration * delta
+		)
+	else:
+		# reglar, linear velocity
+		velocity = move_direction * base_move_speed
+
+	return velocity

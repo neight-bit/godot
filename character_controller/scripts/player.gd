@@ -13,9 +13,7 @@ var move_component = $move_component
 @export
 var has_acceleration: bool = true
 
-@export
-var acceleration: float
-
+@export_range(0.0, 5000, 1) var acceleration_factor: float = 0.0
 
 func _ready() -> void:
 	state_machine.init(self, animations, move_component)

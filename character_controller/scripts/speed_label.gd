@@ -4,4 +4,4 @@ extends Label
 
 func _process(delta: float) -> void:
 	if character:
-		text = 'speed: ' + str(character.velocity)
+		text = 'speed: ' + str(character.velocity) + '\naccel: ' + str(character.move_component.get_parent_acceleration())
