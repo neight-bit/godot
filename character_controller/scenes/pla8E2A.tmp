@@ -33,10 +33,6 @@ shape = SubResource("CapsuleShape2D_tw8kx")
 
 [node name="move_component" type="Node" parent="."]
 script = ExtResource("4_wdira")
-jump_height = 300.0
-jump_time_to_peak = 0.5
-jump_time_to_descent = 0.4
-air_control = 2200.0
 
 [node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_xs84i")
@@ -61,9 +57,20 @@ jump_state = NodePath("../jump")
 script = ExtResource("7_o5ipd")
 idle_state = NodePath("../idle")
 move_state = NodePath("../move")
+animation_name = null
+move_speed = null
+max_speed = null
+friction = null
 
 [node name="jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "idle_state")]
 script = ExtResource("8_khfvs")
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 idle_state = NodePath("../idle")
+jump_height = 200.0
+jump_time_to_peak = 0.5
+jump_time_to_descent = 0.2
+animation_name = null
+move_speed = null
+max_speed = null
+friction = null

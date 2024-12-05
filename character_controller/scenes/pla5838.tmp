@@ -33,10 +33,6 @@ shape = SubResource("CapsuleShape2D_tw8kx")
 
 [node name="move_component" type="Node" parent="."]
 script = ExtResource("4_wdira")
-jump_height = 300.0
-jump_time_to_peak = 0.5
-jump_time_to_descent = 0.4
-air_control = 2200.0
 
 [node name="state_machine" type="Node" parent="." node_paths=PackedStringArray("starting_state")]
 script = ExtResource("2_xs84i")
@@ -45,17 +41,17 @@ starting_state = NodePath("idle")
 [node name="BaseState" type="Node" parent="state_machine"]
 script = ExtResource("3_4j72j")
 
-[node name="idle" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "jump_state")]
+[node name="idle" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state")]
 script = ExtResource("6_3llk8")
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
-jump_state = NodePath("../jump")
 
 [node name="move" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state")]
 script = ExtResource("5_rcypn")
 fall_state = NodePath("../fall")
 idle_state = NodePath("../idle")
 jump_state = NodePath("../jump")
+acceleration = 20.0
 
 [node name="fall" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "move_state")]
 script = ExtResource("7_o5ipd")
@@ -67,3 +63,6 @@ script = ExtResource("8_khfvs")
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 idle_state = NodePath("../idle")
+jump_height = 500.0
+jump_time_to_peak = 1.0
+jump_time_to_descent = 0.7

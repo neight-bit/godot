@@ -10,11 +10,14 @@ var state_machine = $state_machine
 @onready
 var move_component = $move_component
 
+@export
+var has_acceleration: bool = true
+
+@export
 var acceleration: float
 
+
 func _ready() -> void:
-	# Initialize the state machine, passing a reference of the player to the states,
-	# that way they can move and react accordingly
 	state_machine.init(self, animations, move_component)
 
 func _unhandled_input(event: InputEvent) -> void:

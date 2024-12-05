@@ -12,6 +12,7 @@ func init(parent: CharacterBody2D, animations: AnimatedSprite2D, move_component:
 		child.parent = parent
 		child.animations = animations
 		child.move_component = move_component
+		move_component.parent = parent
 	change_state(starting_state)
 
 # Change to the new state by first calling any exit logic on the current state.

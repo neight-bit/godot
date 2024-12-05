@@ -4,5 +4,4 @@ extends Label
 
 func _process(delta: float) -> void:
 	if character:
-		var acceleration = character.get('acceleration')
-		text = 'speed: ' + str(character.velocity) + '\n' + 'acceleration: ' + str(acceleration)
+		text = 'speed: ' + str(character.velocity)

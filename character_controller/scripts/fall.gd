@@ -6,17 +6,23 @@ var idle_state: State
 @export 
 var move_state: State
 
-func process_physics(delta: float) -> State:
-	parent.velocity.y += gravity * delta
+var initial_horizontal_velocity: float
 
-	var movement = move_component.get_movement_direction() * move_speed
-	if movement != 0 and animations:
-		parent.animations.flip_h = movement > 0
-	parent.velocity.x = movement
+func enter() -> void:
+	super()
+	initial_horizontal_velocity = parent.velocity.x
+
+func process_physics(delta: float) -> State:
+	parent.velocity.y += move_component.get_gravity() * delta
+
+	var movement_direction = move_component.get_movement_direction()
+	if movement_direction != 0 and animations:
+		animations.flip_h = movement_direction < 0
+	parent.velocity.x = move_component.get_airborne_velocity(delta, initial_horizontal_velocity)
 	parent.move_and_slide()
 	
 	if parent.is_on_floor():
-		if movement != 0:
+		if movement_direction != 0:
 			return move_state
 		return idle_state
 
