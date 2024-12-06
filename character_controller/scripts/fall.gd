@@ -15,7 +15,7 @@ func enter() -> void:
 func process_physics(delta: float) -> State:
 	parent.velocity.y += move_component.get_gravity() * delta
 
-	var movement_direction = move_component.get_movement_direction()
+	var movement_direction = get_movement_direction()
 	if movement_direction != 0 and animations:
 		animations.flip_h = movement_direction < 0
 	parent.velocity.x = move_component.get_airborne_velocity(delta, initial_horizontal_velocity)

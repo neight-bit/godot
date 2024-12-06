@@ -1,23 +1,26 @@
-extends State
-class_name MoveState
+extends MoveState
 
 @export
-var fall_state: State
+var move_state: State
 
 @export
-var idle_state: State
+var dash_time: float = move_component.dash_time
 
-@export
-var jump_state: State
+var dash_timer := 0.0
 
+var direction := 1.0
 
-func process_input(event: InputEvent) -> State:
-	if get_jump():
-		return jump_state
-	return null
+func enter() -> void:
+	super()
+	dash_timer = dash_time
+	# Use direction the character is facing instead of direction of motion
+	direction = -1 if parent.animations.flip_h else 1
+
 
 func process_physics(delta: float) -> State:
-	parent.velocity.y += move_component.get_gravity() * delta
+	dash_timer -= delta
+	if dash_timer <= 0.0:
+		super.process_physics(delta)
 
 	var move_direction = get_movement_direction()
 	if parent.velocity.x == 0 and move_direction == 0:

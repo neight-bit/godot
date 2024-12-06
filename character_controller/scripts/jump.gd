@@ -21,7 +21,7 @@ func process_physics(delta: float) -> State:
 	if parent.velocity.y < 0:
 		return fall_state
 	
-	var movement_direction = move_component.get_movement_direction()
+	var movement_direction = get_movement_direction()
 	if movement_direction != 0 and animations:
 		animations.flip_h = movement_direction < 0
 	move_component.get_airborne_velocity(delta, initial_horizontal_velocity)

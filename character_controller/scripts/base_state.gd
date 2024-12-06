@@ -7,7 +7,6 @@ var animation_name: String
 @export
 var friction: float = 50
 
-
 var parent: CharacterBody2D
 var animations: AnimatedSprite2D
 var move_component: Node
@@ -27,3 +26,13 @@ func process_physics(delta: float) -> State:
 
 func process_frame(delta: float) -> State:
 	return null
+
+func get_jump() -> bool:
+	if move_component:
+		return move_component.wants_jump()
+	return false
+	
+func get_movement_direction():
+	if move_component:
+		return move_component.get_movement_direction()
+	return 0

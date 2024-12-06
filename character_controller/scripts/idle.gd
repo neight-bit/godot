@@ -14,9 +14,8 @@ func enter() -> void:
 	parent.velocity.x = 0
 
 func process_input(event: InputEvent) -> State:
-	if move_component.wants_jump():
-		if parent.is_on_floor():
-			return jump_state
+	if get_jump() and parent.is_on_floor():
+		return jump_state
 
 	if move_component.get_movement_direction() != 0.0:
 		return move_state

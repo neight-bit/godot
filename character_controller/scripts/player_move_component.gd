@@ -24,6 +24,9 @@ var jump_time_to_descent: float = .4
 @export
 var air_control: float = 1600
 
+@export
+var dash_time: float = .5
+
 var parent: CharacterBody2D
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
@@ -41,7 +44,7 @@ func wants_jump() -> bool:
 	return Input.is_action_just_pressed('jump')
 
 func get_parent_acceleration() -> float:
-	'''Run acceleration can be flipped on/off on a per-character basis'''
+	'''Run acceleration can be turned on/off on a per-character basis'''
 	if (parent.get("has_acceleration") and parent.has_acceleration):
 		if (parent.get("acceleration_factor") and parent.acceleration_factor):
 			acceleration = parent.acceleration_factor
@@ -60,6 +63,10 @@ func get_parent_deceleration():
 		return 1.0
 	
 func get_airborne_velocity(delta: float, initial_horizontal_velocity: float) -> float:
+	"""Allow a character to continue at the absolute speed they had when they left the ground.
+	If they change direction in mid-air, they can re-accelerate back up to the initial speed in the opposie direction, 
+	but not exceed intial velocity"""
+	
 	var direction: float = get_movement_direction()
 	var target_velocity = abs(initial_horizontal_velocity) * direction
 	var max_allowed_speed = max(
