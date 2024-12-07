@@ -10,6 +10,7 @@ var friction: float = 50
 var parent: CharacterBody2D
 var animations: AnimatedSprite2D
 var move_component: Node
+var direction: float
 
 func enter() -> void:
 	if animation_name and animations:

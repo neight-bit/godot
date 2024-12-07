@@ -24,7 +24,6 @@ func process_input(event: InputEvent) -> State:
 
 func process_physics(delta: float) -> State:
 	parent.velocity.y += move_component.get_gravity() * delta
-
 	parent.move_and_slide()
 
 	if !parent.is_on_floor():

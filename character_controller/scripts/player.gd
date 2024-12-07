@@ -15,6 +15,17 @@ var has_acceleration: bool = true
 
 @export_range(0.0, 5000, 1) var acceleration_factor: float = 0.0
 
+var orientation: float:
+	get:
+		return orientation
+	set(value):
+		orientation = value
+		if value < 0:
+			self.animations.flip_h = true
+		if value > 0:
+			self.animations.flip_h = false
+		# if value == 0, don't flip the sprite's direction
+
 func _ready() -> void:
 	state_machine.init(self, animations, move_component)
 

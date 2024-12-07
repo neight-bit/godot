@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://4sefjemexuyq"
-path="res://.godot/imported/run.png-071f75d131363f9b95172de1696a5e2c.ctex"
+uid="uid://drux1vcwlkiab"
+path="res://.godot/imported/01_soldier_idle.png-22883d09ad1df2e0116dfa1e1ee8e776.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/player/sprites/run.png"
-dest_files=["res://.godot/imported/run.png-071f75d131363f9b95172de1696a5e2c.ctex"]
+source_file="res://assets/player/sprites/01_soldier_idle.png"
+dest_files=["res://.godot/imported/01_soldier_idle.png-22883d09ad1df2e0116dfa1e1ee8e776.ctex"]
 
 [params]
 

@@ -1,19 +1,19 @@
 extends Node
 
 @export
-var base_move_speed: float = 200
+var base_move_speed: float = 80
 
 @export
-var max_speed: float = 1000
+var max_speed: float = 400
 
 @export
-var acceleration: float = 1500
+var acceleration: float = 1000
 
 @export
-var deceleration_factor: float = 2.0
+var deceleration_factor: float = 3.0
 
 @export
-var jump_height: float = 200
+var jump_height: float = 150
 
 @export
 var jump_time_to_peak: float = .5
@@ -22,7 +22,7 @@ var jump_time_to_peak: float = .5
 var jump_time_to_descent: float = .4
 
 @export
-var air_control: float = 1600
+var air_control: float = 800
 
 @export
 var dash_time: float = .5

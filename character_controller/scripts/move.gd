@@ -19,11 +19,10 @@ func process_input(event: InputEvent) -> State:
 func process_physics(delta: float) -> State:
 	parent.velocity.y += move_component.get_gravity() * delta
 
-	var move_direction = get_movement_direction()
+	var move_direction = move_component.get_movement_direction()
+	parent.orientation = move_direction
 	if parent.velocity.x == 0 and move_direction == 0:
 		return idle_state
-	if parent.animations:
-		parent.animations.flip_h = move_direction < 0
 
 	parent.velocity.x = move_component.get_grounded_velocity(delta)
 	parent.move_and_slide()
