@@ -10,7 +10,7 @@ var max_speed: float = 400
 var acceleration: float = 1000
 
 @export
-var deceleration_factor: float = 3.0
+var deceleration_factor: float = 3
 
 @export
 var jump_height: float = 150
@@ -25,7 +25,13 @@ var jump_time_to_descent: float = .4
 var air_control: float = 800
 
 @export
-var dash_time: float = .5
+var dash_time: float = .25
+
+@export 
+var dash_speed: float = 2 * max_speed
+
+@export
+var dash_cooldown_time: float = 1
 
 var parent: CharacterBody2D
 
@@ -42,6 +48,9 @@ func get_movement_direction() -> float:
 	
 func wants_jump() -> bool:
 	return Input.is_action_just_pressed('jump')
+	
+func wants_dash() -> bool:
+	return Input.is_action_just_pressed('dash')
 
 func get_parent_acceleration() -> float:
 	'''Run acceleration can be turned on/off on a per-character basis'''
@@ -90,7 +99,6 @@ func get_airborne_velocity(delta: float, initial_horizontal_velocity: float) -> 
 	)
 	return clamped_velocity
 
-
 func get_grounded_velocity(delta: float):
 	"""Velocity can be determined via upstream properties to either be a flat value, or use accleration"""
 	var velocity: float
@@ -113,3 +121,56 @@ func get_grounded_velocity(delta: float):
 		velocity = move_direction * base_move_speed
 
 	return velocity
+
+func get_jump() -> bool:
+	if parent.remaining_jumps <= 0:
+		return false
+	
+	if parent.is_on_floor():
+		if parent.get('is_dashing') and parent.is_dashing:
+			if parent.can_jump_while_dashing:
+				return wants_jump()
+			else:
+				return false
+		
+		return wants_jump()
+	else:
+		if parent.get('is_dashing') and parent.is_dashing:
+			if parent.can_jump_while_air_dashing:
+				return wants_jump()
+			else:
+				return false
+		
+		return wants_jump()
+
+func reset_jumps() -> void:
+	if parent.is_on_floor():
+		parent.remaining_jumps = parent.max_jumps
+
+func get_dash() -> bool:
+	if parent.has_node("DashCooldownTimer"):
+		return false
+	if wants_dash():
+		if not parent.can_dash:
+			return false
+		if not parent.is_on_floor():
+			if not parent.can_air_dash:
+				return false
+		return true
+	return false
+
+func get_dash_velocity() -> float:
+	return dash_speed * parent.orientation
+
+func get_dash_cooldown_timer() -> Timer:
+	var cooldown_timer = Timer.new()
+	cooldown_timer.one_shot = true
+	cooldown_timer.wait_time = dash_cooldown_time
+	cooldown_timer.name = "DashCooldownTimer"
+	cooldown_timer.timeout.connect(_on_dash_cooldown_timeout.bind(cooldown_timer))
+	return cooldown_timer
+
+func _on_dash_cooldown_timeout(timer) -> void:
+	var cooldown_timer:Timer = timer
+	if cooldown_timer:
+		cooldown_timer.queue_free()

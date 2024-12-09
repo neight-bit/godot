@@ -4,4 +4,4 @@ var character: CharacterBody2D
 
 func _process(delta: float) -> void:
 	if character:
-		text = 'orientation: ' + str(character.orientation)
+		text = 'state: ' + str(character.state_machine.current_state.name) + '\norientation: ' + str(character.orientation)

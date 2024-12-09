@@ -10,10 +10,18 @@ var idle_state: State
 @export
 var jump_state: State
 
+@export
+var dash_state: State
 
-func process_input(event: InputEvent) -> State:
-	if get_jump():
+func enter() -> void:
+	super()
+	move_component.reset_jumps()
+
+func process_input(_event: InputEvent) -> State:
+	if move_component.get_jump():
 		return jump_state
+	if move_component.get_dash():
+		return dash_state
 	return null
 
 func process_physics(delta: float) -> State:
@@ -27,7 +35,7 @@ func process_physics(delta: float) -> State:
 	parent.velocity.x = move_component.get_grounded_velocity(delta)
 	parent.move_and_slide()
 	
-	if !parent.is_on_floor():
+	if !parent.is_on_floor() and not parent.is_dashing:
 		return fall_state
 
 	return null

@@ -1,37 +1,48 @@
-extends MoveState
+extends State
+
+@export
+var idle_state: State
 
 @export
 var move_state: State
 
 @export
-var dash_time: float = move_component.dash_time
+var jump_state: State
+
+@export
+var fall_state: State
 
 var dash_timer := 0.0
 
-var direction := 1.0
-
 func enter() -> void:
 	super()
-	dash_timer = dash_time
-	# Use direction the character is facing instead of direction of motion
-	direction = -1 if parent.animations.flip_h else 1
+	dash_timer = move_component.dash_time
+	parent.is_dashing = true
 
+func exit() -> void:
+	parent.is_dashing = false
+	var cooldown_timer = move_component.get_dash_cooldown_timer()
+	parent.add_child(cooldown_timer)
+	cooldown_timer.start()
+
+func process_input(event: InputEvent) -> State:
+	if move_component.get_jump():
+		print("jump 4 u")
+		return jump_state
+	print("no jump 4 u")
+	return null
 
 func process_physics(delta: float) -> State:
 	dash_timer -= delta
 	if dash_timer <= 0.0:
-		super.process_physics(delta)
-
-	var move_direction = get_movement_direction()
-	if parent.velocity.x == 0 and move_direction == 0:
+		if parent.velocity.y > 0:
+			return fall_state
+		if move_component.get_movement_direction() != 0.0:
+			return move_state
 		return idle_state
-	if parent.animations:
-		parent.animations.flip_h = move_direction < 0
-
-	parent.velocity.x = move_component.get_grounded_velocity(delta)
+	
+	parent.velocity.y = 0
+	parent.velocity.x = move_component.get_dash_velocity()
 	parent.move_and_slide()
 	
-	if !parent.is_on_floor():
-		return fall_state
-
 	return null
