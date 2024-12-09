@@ -356,7 +356,7 @@ offset_bottom = 308.0
 scale = Vector2(0.991829, 1.07339)
 texture = SubResource("PlaceholderTexture2D_0v3yh")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collider" type="CollisionShape2D" parent="."]
 position = Vector2(0.908535, -2.5)
 scale = Vector2(1, -0.92)
 shape = SubResource("CapsuleShape2D_tw8kx")

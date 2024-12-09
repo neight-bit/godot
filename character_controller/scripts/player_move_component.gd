@@ -33,6 +33,9 @@ var dash_speed: float = 2 * max_speed
 @export
 var dash_cooldown_time: float = 1
 
+@export
+var jump_buffer_time: float = .1
+
 var parent: CharacterBody2D
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
@@ -61,7 +64,7 @@ func get_parent_acceleration() -> float:
 	else: 
 		return 0.0
 
-func get_parent_deceleration():
+func get_parent_deceleration() -> float:
 	"""Check if the character is reversing direction or stopping,"""
 	if (parent.get("has_acceleration") and parent.has_acceleration):
 		if (parent.get("deceleration_factor") and parent.deceleration_factor):
@@ -123,25 +126,32 @@ func get_grounded_velocity(delta: float):
 	return velocity
 
 func get_jump() -> bool:
+	var wants: bool = wants_jump()
 	if parent.remaining_jumps <= 0:
+		if is_ground_nearby():
+			if wants:
+				reset_jumps()
+				return wants
 		return false
 	
 	if parent.is_on_floor():
 		if parent.get('is_dashing') and parent.is_dashing:
 			if parent.can_jump_while_dashing:
-				return wants_jump()
+				return wants
 			else:
 				return false
 		
-		return wants_jump()
+		return wants
 	else:
 		if parent.get('is_dashing') and parent.is_dashing:
 			if parent.can_jump_while_air_dashing:
-				return wants_jump()
+				return wants
 			else:
 				return false
-		
-		return wants_jump()
+		if is_ground_nearby():
+			if wants:
+				reset_jumps()
+		return wants
 
 func reset_jumps() -> void:
 	if parent.is_on_floor():
@@ -174,3 +184,28 @@ func _on_dash_cooldown_timeout(timer) -> void:
 	var cooldown_timer:Timer = timer
 	if cooldown_timer:
 		cooldown_timer.queue_free()
+
+func is_ground_nearby() -> bool:
+	print("checking buffer")
+	var ground_nearby = false
+	var raycasts := []
+	var char_collider = parent.get_node('collider').shape
+	var directions = [
+		Vector2(-char_collider.radius, 1), # left
+		Vector2(0, 1), # center
+		Vector2(char_collider.radius, 1) # right
+	]
+	for direction in directions:
+		var raycast = RayCast2D.new()
+		raycast.enabled = true
+		raycast.target_position = direction * jump_buffer_time * abs(parent.velocity.y)
+		raycast.collision_mask = 0
+		raycasts.append(raycast)
+		parent.add_child(raycast)
+	
+	for raycast in raycasts:
+		if raycast.is_colliding():
+			ground_nearby = true
+		raycast.queue_free()
+	print('ground nearby: ' + str(ground_nearby))
+	return ground_nearby

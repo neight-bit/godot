@@ -10,6 +10,11 @@ var state_machine = $state_machine
 @onready
 var move_component = $move_component
 
+#region abilities
+# For now, whether or not a character has *access* to a certain feature is defined here
+# The various values for these features are defined in the downstream component(s)
+# I think that there is a solid rationale for inheriting access through the components,
+# but that requires a lot more thought and planning.
 @export
 var has_acceleration: bool = true
 
@@ -25,10 +30,14 @@ var can_jump_while_dashing: bool = true
 @export
 var can_jump_while_air_dashing: bool = true
 
+@export 
+var can_buffer_jumps: bool = true
+
 @export
 var max_jumps: int = 1
 
 @export_range(0.0, 5000, 1) var acceleration_factor: float = 0.0
+#endregion
 
 var orientation: float:
 	get:
