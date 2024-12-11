@@ -18,6 +18,7 @@ font_size = 12
 
 [node name="player" parent="." instance=ExtResource("1_cc2nb")]
 position = Vector2(308, 295)
+collision_layer = 2
 
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(585, 383)

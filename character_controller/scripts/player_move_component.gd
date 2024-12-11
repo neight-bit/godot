@@ -125,33 +125,34 @@ func get_grounded_velocity(delta: float):
 
 	return velocity
 
-func get_jump() -> bool:
-	var wants: bool = wants_jump()
+func get_jump(pre_buffered: bool = false) -> bool:
+	"""The pre_buffered argument overrides wants_jump to be true.
+	This is because the call that evaluates a jump buffering request processes jump input several
+	frames before get_jump is called.  By then the jump input not likely active anymore"""
+	var char_wants_jump: bool
+	if pre_buffered:
+		char_wants_jump = true
+	else: 
+		char_wants_jump = wants_jump()
 	if parent.remaining_jumps <= 0:
-		if is_ground_nearby():
-			if wants:
-				reset_jumps()
-				return wants
 		return false
 	
 	if parent.is_on_floor():
 		if parent.get('is_dashing') and parent.is_dashing:
 			if parent.can_jump_while_dashing:
-				return wants
+				return char_wants_jump
 			else:
 				return false
 		
-		return wants
+		return char_wants_jump
+	
 	else:
 		if parent.get('is_dashing') and parent.is_dashing:
 			if parent.can_jump_while_air_dashing:
-				return wants
+				return char_wants_jump
 			else:
 				return false
-		if is_ground_nearby():
-			if wants:
-				reset_jumps()
-		return wants
+		return char_wants_jump
 
 func reset_jumps() -> void:
 	if parent.is_on_floor():
@@ -185,27 +186,30 @@ func _on_dash_cooldown_timeout(timer) -> void:
 	if cooldown_timer:
 		cooldown_timer.queue_free()
 
-func is_ground_nearby() -> bool:
-	print("checking buffer")
+func can_buffer_jump() -> bool:
 	var ground_nearby = false
-	var raycasts := []
-	var char_collider = parent.get_node('collider').shape
-	var directions = [
-		Vector2(-char_collider.radius, 1), # left
-		Vector2(0, 1), # center
-		Vector2(char_collider.radius, 1) # right
-	]
-	for direction in directions:
+	var char_collider = parent.get_node('collider')
+	var bottom_y = char_collider.global_position.y + char_collider.shape.height/2
+	var origins = [
+			Vector2(char_collider.global_position.x - char_collider.shape.radius, bottom_y), # Left-bottom
+			Vector2(char_collider.global_position.x, bottom_y), # Center-bottom
+			Vector2(char_collider.global_position.x + char_collider.shape.radius, bottom_y)  # Right-bottom
+		]
+		
+	for origin in origins:
 		var raycast = RayCast2D.new()
 		raycast.enabled = true
-		raycast.target_position = direction * jump_buffer_time * abs(parent.velocity.y)
-		raycast.collision_mask = 0
-		raycasts.append(raycast)
-		parent.add_child(raycast)
-	
-	for raycast in raycasts:
+		raycast.position = origin
+		raycast.target_position = Vector2(
+			0,
+			jump_buffer_time * abs(parent.velocity.y)
+		)
+		raycast.collision_mask = 1
+		raycast.collide_with_bodies = true
+		add_child(raycast)
+		raycast.force_raycast_update()
 		if raycast.is_colliding():
 			ground_nearby = true
 		raycast.queue_free()
-	print('ground nearby: ' + str(ground_nearby))
+
 	return ground_nearby
