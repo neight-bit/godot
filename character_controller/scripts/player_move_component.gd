@@ -126,14 +126,11 @@ func get_grounded_velocity(delta: float):
 	return velocity
 
 func get_jump(pre_buffered: bool = false) -> bool:
-	"""The pre_buffered argument overrides wants_jump to be true.
+	"""The pre_buffered argument overrides forces wants_jump to true.
 	This is because the call that evaluates a jump buffering request processes jump input several
 	frames before get_jump is called.  By then the jump input not likely active anymore"""
 	var char_wants_jump: bool
-	if pre_buffered:
-		char_wants_jump = true
-	else: 
-		char_wants_jump = wants_jump()
+	char_wants_jump = true if pre_buffered else wants_jump()
 	if parent.remaining_jumps <= 0:
 		return false
 	
