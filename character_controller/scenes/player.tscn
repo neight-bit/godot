@@ -1,20 +1,22 @@
-[gd_scene load_steps=60 format=3 uid="uid://f2o7mlu8m06j"]
+[gd_scene load_steps=62 format=3 uid="uid://f2o7mlu8m06j"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_drxhn"]
 [ext_resource type="Texture2D" uid="uid://drux1vcwlkiab" path="res://assets/player/sprites/01_soldier_idle.png" id="2_j1yvt"]
-[ext_resource type="Script" path="res://scripts/state_machine.gd" id="2_xs84i"]
-[ext_resource type="Script" path="res://scripts/base_state.gd" id="3_4j72j"]
+[ext_resource type="Script" path="res://states/state_machine.gd" id="2_xs84i"]
 [ext_resource type="Texture2D" uid="uid://cw0qibjxb17u0" path="res://assets/player/sprites/01_soldier_jump_02_falling.png" id="3_fwixh"]
 [ext_resource type="Texture2D" uid="uid://d387k2380ov45" path="res://assets/player/sprites/block_impact.png" id="3_tgxp4"]
 [ext_resource type="Script" path="res://scripts/player_move_component.gd" id="4_wdira"]
 [ext_resource type="Texture2D" uid="uid://bckihkeugb7ty" path="res://assets/player/sprites/01_soldier_run.png" id="4_y3kn8"]
 [ext_resource type="Texture2D" uid="uid://dvjol7it5ack5" path="res://assets/player/sprites/01_soldier_jump_01_rising.png" id="5_83t0f"]
-[ext_resource type="Script" path="res://scripts/move.gd" id="5_rcypn"]
-[ext_resource type="Script" path="res://scripts/idle.gd" id="6_3llk8"]
 [ext_resource type="Texture2D" uid="uid://dfocmy83rgubi" path="res://assets/player/sprites/01_soldier_jump_03_landing.png" id="7_i6psc"]
-[ext_resource type="Script" path="res://scripts/fall.gd" id="7_o5ipd"]
-[ext_resource type="Script" path="res://scripts/jump.gd" id="8_khfvs"]
-[ext_resource type="Script" path="res://scripts/dash.gd" id="9_0cch6"]
+[ext_resource type="PackedScene" uid="uid://nl3bs1mrhuk5" path="res://states/states/base_state.tscn" id="10_iujcm"]
+[ext_resource type="PackedScene" uid="uid://3v3pptw4ot4f" path="res://states/states/idle.tscn" id="11_7qb48"]
+[ext_resource type="PackedScene" uid="uid://dlv78gqvglb8y" path="res://states/states/move.tscn" id="12_gddjf"]
+[ext_resource type="PackedScene" uid="uid://l6ft28uu5324" path="res://states/states/fall.tscn" id="13_mppw1"]
+[ext_resource type="PackedScene" uid="uid://krts8c2ri2pq" path="res://states/states/jump.tscn" id="14_ye4qj"]
+[ext_resource type="PackedScene" uid="uid://cbtl3lhf8jhb4" path="res://states/states/dash.tscn" id="15_ro1pf"]
+[ext_resource type="PackedScene" uid="uid://dfega4rxiaor" path="res://components/component_manager.tscn" id="16_kkskd"]
+[ext_resource type="Script" path="res://scripts/mediator.gd" id="17_liqst"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0v3yh"]
 
@@ -376,45 +378,39 @@ animation = &"land"
 script = ExtResource("2_xs84i")
 starting_state = NodePath("idle")
 
-[node name="BaseState" type="Node" parent="state_machine"]
-script = ExtResource("3_4j72j")
+[node name="BaseState" parent="state_machine" instance=ExtResource("10_iujcm")]
 
-[node name="idle" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state")]
-script = ExtResource("6_3llk8")
+[node name="idle" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state") instance=ExtResource("11_7qb48")]
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
-animation_name = "idle"
 
-[node name="move" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state")]
-script = ExtResource("5_rcypn")
+[node name="move" parent="state_machine" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state") instance=ExtResource("12_gddjf")]
 fall_state = NodePath("../fall")
 idle_state = NodePath("../idle")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
-animation_name = "move"
 
-[node name="fall" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "dash_state")]
-script = ExtResource("7_o5ipd")
+[node name="fall" parent="state_machine" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "dash_state") instance=ExtResource("13_mppw1")]
 idle_state = NodePath("../idle")
 move_state = NodePath("../move")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
-animation_name = "fall"
 
-[node name="jump" type="Node" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state")]
-script = ExtResource("8_khfvs")
+[node name="jump" parent="state_machine" node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state") instance=ExtResource("14_ye4qj")]
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 idle_state = NodePath("../idle")
 dash_state = NodePath("../dash")
-animation_name = "jump"
 
-[node name="dash" type="Node" parent="state_machine" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "fall_state")]
-script = ExtResource("9_0cch6")
+[node name="dash" parent="state_machine" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "fall_state") instance=ExtResource("15_ro1pf")]
 idle_state = NodePath("../idle")
 move_state = NodePath("../move")
 jump_state = NodePath("../jump")
 fall_state = NodePath("../fall")
-animation_name = "dash"
+
+[node name="component_manager" parent="." instance=ExtResource("16_kkskd")]
+
+[node name="mediator" type="Node" parent="."]
+script = ExtResource("17_liqst")

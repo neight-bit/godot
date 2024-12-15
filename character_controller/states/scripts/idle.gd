@@ -14,11 +14,11 @@ var dash_state: State
 
 func enter() -> void:
 	super()
-	parent.velocity.x = 0
+	actor.velocity.x = 0
 	move_component.reset_jumps()
 
 func process_input(event: InputEvent) -> State:
-	if move_component.get_jump() and parent.is_on_floor():
+	if mediator.get_jump() and actor.is_on_floor():
 		return jump_state
 	if move_component.get_dash():
 		return dash_state
@@ -28,10 +28,10 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta: float) -> State:
-	parent.velocity.y += move_component.get_gravity() * delta
-	parent.move_and_slide()
+	actor.velocity.y += move_component.get_gravity() * delta
+	actor.move_and_slide()
 
-	if !parent.is_on_floor():
+	if !actor.is_on_floor():
 		return fall_state
 
 	return null

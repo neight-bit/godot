@@ -19,7 +19,7 @@ var jump_buffered: bool
 
 func enter() -> void:
 	super()
-	initial_horizontal_velocity = parent.velocity.x
+	initial_horizontal_velocity = actor.velocity.x
 	jump_buffered = false
 
 func process_input(_event: InputEvent) -> State:
@@ -40,13 +40,13 @@ func process_input(_event: InputEvent) -> State:
 	return null
 
 func process_physics(delta: float) -> State:
-	parent.velocity.y += move_component.get_gravity() * delta
+	actor.velocity.y += move_component.get_gravity() * delta
 	var movement_direction = move_component.get_movement_direction()
-	parent.orientation = movement_direction
-	parent.velocity.x = move_component.get_airborne_velocity(delta, initial_horizontal_velocity)
-	parent.move_and_slide()
+	actor.orientation = movement_direction
+	actor.velocity.x = move_component.get_airborne_velocity(delta, initial_horizontal_velocity)
+	actor.move_and_slide()
 
-	if parent.is_on_floor():
+	if actor.is_on_floor():
 		if jump_buffered:
 			move_component.reset_jumps()
 			# Pass in the true argument so simulate a jump button press

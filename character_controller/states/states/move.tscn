@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dlv78gqvglb8y"]
+
+[ext_resource type="Script" path="res://states/scripts/move.gd" id="1_idb0x"]
+
+[node name="move" type="Node" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state")]
+script = ExtResource("1_idb0x")
+fall_state = NodePath("")
+idle_state = NodePath("")
+jump_state = NodePath("")
+dash_state = NodePath("")
+animation_name = "move"

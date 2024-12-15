@@ -1,18 +1,20 @@
+class_name StateMachine
 extends Node
 
 @export
 var starting_state: State
-
 var current_state: State
 
 # Initialize the state machine by giving each child state a reference to the
 # parent object it belongs to and enter the default starting_state.
-func init(parent: CharacterBody2D, animations: AnimatedSprite2D, move_component: Node) -> void:
+func init(actor: CharacterBody2D, mediator: Mediator, animations: AnimatedSprite2D, move_component: Node) -> void:
 	for child in get_children():
-		child.parent = parent
+		child.actor = actor
 		child.animations = animations
+		child.mediator = mediator
+		# TODO: Remove these once the component manager is working
 		child.move_component = move_component
-		move_component.parent = parent
+		move_component.actor = actor
 	change_state(starting_state)
 
 # Change to the new state by first calling any exit logic on the current state.

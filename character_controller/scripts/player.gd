@@ -8,7 +8,14 @@ var animations = $animations
 var state_machine = $state_machine
 
 @onready
+var component_manager = $component_manager
+
+@onready
 var move_component = $move_component
+
+@onready
+var mediator = $mediator
+
 
 #region abilities
 # For now, whether or not a character has *access* to a certain feature is defined here
@@ -39,26 +46,14 @@ var max_jumps: int = 1
 @export_range(0.0, 5000, 1) var acceleration_factor: float = 0.0
 #endregion
 
-var orientation: float:
-	get:
-		return orientation if orientation else 1.0
-	set(value):
-		if value < 0:
-			self.animations.flip_h = true
-			orientation = value
-		if value > 0:
-			self.animations.flip_h = false
-			orientation = value
-		if value == 0:
-			# don't flip the sprite's direction
-			pass
-
 var remaining_jumps: int = max_jumps
 
 var is_dashing = false
 
 func _ready() -> void:
-	state_machine.init(self, animations, move_component)
+	component_manager.init(self, mediator)
+	state_machine.init(self, mediator, animations)
+	mediator.init(self, component_manager, state_machine)
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.process_input(event)
