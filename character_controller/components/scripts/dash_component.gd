@@ -10,7 +10,13 @@ var dash_cooldown_time: float = 1
 var can_dash: bool = true
 
 @export
-var can_air_dash: bool = false
+var can_air_dash: bool = true
+
+@export
+var can_jump_while_dashing: bool = true
+
+@export
+var can_jump_while_air_dashing: bool = true
 
 var dash_timer: Array[Timer]
 

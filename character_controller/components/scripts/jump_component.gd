@@ -12,10 +12,15 @@ var jump_time_to_peak: float = .5
 @export
 var jump_time_to_descent: float = .4
 
+@export 
+var can_buffer_jumps: bool = true
+
 @export
 var jump_buffer_time: float = .1
 
+
 var remaining_jumps: int
+
 
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 @onready var jump_gravity: float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
