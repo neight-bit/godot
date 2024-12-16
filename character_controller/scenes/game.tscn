@@ -16,10 +16,6 @@ font_size = 12
 
 [node name="game" type="Node2D"]
 
-[node name="player" parent="." instance=ExtResource("1_cc2nb")]
-position = Vector2(308, 295)
-collision_layer = 2
-
 [node name="Ground" type="StaticBody2D" parent="."]
 position = Vector2(585, 383)
 
@@ -32,7 +28,7 @@ position = Vector2(3, -3.8147e-06)
 scale = Vector2(15.6094, 0.796875)
 texture = ExtResource("2_lf3c8")
 
-[node name="hud" type="Control" parent="." node_paths=PackedStringArray("character")]
+[node name="hud" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -6.0
@@ -40,7 +36,6 @@ offset_top = 193.0
 offset_right = 34.0
 offset_bottom = 233.0
 script = ExtResource("2_p7vg0")
-character = NodePath("../player")
 
 [node name="speed_label" type="Label" parent="hud"]
 layout_mode = 1
@@ -66,3 +61,6 @@ offset_right = 59.0
 offset_bottom = -149.0
 label_settings = SubResource("LabelSettings_votku")
 script = ExtResource("4_1f5ku")
+
+[node name="player" parent="." instance=ExtResource("1_cc2nb")]
+position = Vector2(208, 304)

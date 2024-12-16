@@ -7,7 +7,6 @@ var animation_name: String
 var actor: CharacterBody2D
 var animations: AnimatedSprite2D
 var mediator: Mediator
-var move_component: Node
 var required_components: Array[String]
 var optional_components: Array[String]
 

@@ -11,6 +11,8 @@ var mediator: Mediator
 
 var actions: Array = []
 
+var properties: Dictionary = {}
+
 @export
 var actor: Node2D
 

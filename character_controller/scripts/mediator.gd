@@ -14,33 +14,41 @@ var properties := {
 	"orientation": 1
 }
 
-var actions := {}
+var actions := {
+	# [action_name, object_ref, [args]]
+}
 
-func register_action(
-	action_name: String,
-	target: Object,
-	method_name: String,
-	default_args: Array=[]
-):
-	actions[action_name] = {
-		"target": target,
-		"method": method_name,
-		"default_args": default_args
-	}
+
+func init(actor_obj, component_manager_obj, state_machine_obj) -> void:
+	print("Initializing mediator")
+	actor=actor_obj
+	component_manager=component_manager_obj
+	state_machine=state_machine_obj
+
+func register_action(args: Array):
+	if args[0] not in actions:
+		var action_name:	String		=args[0]
+		var target: 		Object		=args[1]
+		var params:			Dictionary	=args[2]
+		actions[action_name] = {
+			"method": action_name,
+			"target": target,
+			"params": params
+		}
+		print(actions)
 
 func unregister_action(action_name: String) -> void:
 	actions.erase(action_name)
 
-# Request actions with optional override arguments
-func request(action_name: String, args: Array=[]):
+
+func request(action_name: String, args: Array = []):
 	if actions.has(action_name):
 		var action = actions[action_name]
 		var target = action.target
 		var method_name = action.method
-		#var default_args = action.default_args
+		if action.params.is_empty():
+			return target.call(method_name)
 
-		# Merge default arguments with override arguments
-		#var args = default_args + override_args
 		return target.callv(method_name, args)
 	
 	print("Action not recognized:", action_name)

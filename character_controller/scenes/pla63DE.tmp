@@ -1,15 +1,22 @@
-[gd_scene load_steps=55 format=3 uid="uid://f2o7mlu8m06j"]
+[gd_scene load_steps=62 format=3 uid="uid://f2o7mlu8m06j"]
 
-[ext_resource type="Script" path="res://scripts/player.gd" id="1_viy72"]
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_drxhn"]
 [ext_resource type="Texture2D" uid="uid://drux1vcwlkiab" path="res://assets/player/sprites/01_soldier_idle.png" id="2_j1yvt"]
+[ext_resource type="Script" path="res://states/state_machine.gd" id="2_xs84i"]
 [ext_resource type="Texture2D" uid="uid://cw0qibjxb17u0" path="res://assets/player/sprites/01_soldier_jump_02_falling.png" id="3_fwixh"]
 [ext_resource type="Texture2D" uid="uid://d387k2380ov45" path="res://assets/player/sprites/block_impact.png" id="3_tgxp4"]
+[ext_resource type="Script" path="res://scripts/player_move_component.gd" id="4_wdira"]
 [ext_resource type="Texture2D" uid="uid://bckihkeugb7ty" path="res://assets/player/sprites/01_soldier_run.png" id="4_y3kn8"]
 [ext_resource type="Texture2D" uid="uid://dvjol7it5ack5" path="res://assets/player/sprites/01_soldier_jump_01_rising.png" id="5_83t0f"]
-[ext_resource type="PackedScene" uid="uid://jlo3cy0u2kuq" path="res://states/state_machine.tscn" id="7_g5vrn"]
 [ext_resource type="Texture2D" uid="uid://dfocmy83rgubi" path="res://assets/player/sprites/01_soldier_jump_03_landing.png" id="7_i6psc"]
-[ext_resource type="PackedScene" uid="uid://bg3smcilqln5q" path="res://scenes/mediator.tscn" id="13_u51o7"]
+[ext_resource type="PackedScene" uid="uid://nl3bs1mrhuk5" path="res://states/states/base_state.tscn" id="10_iujcm"]
+[ext_resource type="PackedScene" uid="uid://3v3pptw4ot4f" path="res://states/states/idle.tscn" id="11_7qb48"]
+[ext_resource type="PackedScene" uid="uid://dlv78gqvglb8y" path="res://states/states/move.tscn" id="12_gddjf"]
+[ext_resource type="PackedScene" uid="uid://l6ft28uu5324" path="res://states/states/fall.tscn" id="13_mppw1"]
+[ext_resource type="PackedScene" uid="uid://krts8c2ri2pq" path="res://states/states/jump.tscn" id="14_ye4qj"]
+[ext_resource type="PackedScene" uid="uid://cbtl3lhf8jhb4" path="res://states/states/dash.tscn" id="15_ro1pf"]
 [ext_resource type="PackedScene" uid="uid://dfega4rxiaor" path="res://components/component_manager.tscn" id="16_kkskd"]
+[ext_resource type="Script" path="res://scripts/mediator.gd" id="17_liqst"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0v3yh"]
 
@@ -233,140 +240,4 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ykc0a")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vbm0j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_48bvm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fwyiv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6q5bl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5xaxo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pjntm")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_yssc5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_70t4i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vode3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_cl2kp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rxqyh")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 16.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7oaet")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_42m5g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pjuiu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jsuaw")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 16.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lk8jg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ppncc")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dsmm2")
-}],
-"loop": false,
-"name": &"land",
-"speed": 16.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2yjl0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xfysd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2p0a4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7sv6b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dm1wk")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0rd6l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e2miq")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hgna5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_335dt")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ml34l")
-}],
-"loop": true,
-"name": &"move",
-"speed": 16.0
-}]
-
-[node name="player" type="CharacterBody2D"]
-script = ExtResource("1_viy72")
-
-[node name="TextureRect" type="TextureRect" parent="."]
-visible = false
-offset_left = 383.0
-offset_top = 258.0
-offset_right = 407.0
-offset_bottom = 308.0
-scale = Vector2(0.991829, 1.07339)
-texture = SubResource("PlaceholderTexture2D_0v3yh")
-
-[node name="collider" type="CollisionShape2D" parent="."]
-position = Vector2(0.908535, -2.5)
-scale = Vector2(1, -0.92)
-shape = SubResource("CapsuleShape2D_tw8kx")
-
-[node name="animations" type="AnimatedSprite2D" parent="."]
-texture_filter = 1
-texture_repeat = 2
-position = Vector2(1.90854, -3.5)
-scale = Vector2(1.0122, 1)
-sprite_frames = SubResource("SpriteFrames_4od4e")
-animation = &"land"
-
-[node name="mediator" parent="." node_paths=PackedStringArray("component_manager", "state_machine", "actor") instance=ExtResource("13_u51o7")]
-component_manager = NodePath("../component_manager")
-state_machine = NodePath("../state_machine")
-actor = NodePath("..")
-
-[node name="component_manager" parent="." instance=ExtResource("16_kkskd")]
-
-[node name="state_machine" parent="." instance=ExtResource("7_g5vrn")]
+"dura

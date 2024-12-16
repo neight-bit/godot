@@ -1,6 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://dfega4rxiaor"]
+[gd_scene load_steps=7 format=3 uid="uid://dfega4rxiaor"]
 
-[ext_resource type="Script" path="res://components/components/component_manager.gd" id="1_vw7ff"]
+[ext_resource type="Script" path="res://components/component_manager.gd" id="1_ctjpf"]
+[ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/components/base_component.tscn" id="2_3ieae"]
+[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/components/dash_component.tscn" id="3_3pakf"]
+[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/components/jump_component.tscn" id="4_eoreb"]
+[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/components/move_component.tscn" id="5_fwycx"]
+[ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/components/null_component.tscn" id="6_l3kat"]
 
-[node name="ComponentManager" type="Node"]
-script = ExtResource("1_vw7ff")
+[node name="component_manager" type="Node"]
+script = ExtResource("1_ctjpf")
+
+[node name="BaseComponent" parent="." instance=ExtResource("2_3ieae")]
+
+[node name="dash_component" parent="." instance=ExtResource("3_3pakf")]
+
+[node name="jump_component" parent="." instance=ExtResource("4_eoreb")]
+
+[node name="move_component" parent="." instance=ExtResource("5_fwycx")]
+
+[node name="null_component" parent="." instance=ExtResource("6_l3kat")]

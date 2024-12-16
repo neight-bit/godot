@@ -18,6 +18,7 @@ var null_component_script = preload("res://components/scripts/null_component.gd"
 
 
 func init(actor_node: Node2D, mediator_obj: Mediator) -> void:
+	print("initializing component manager")
 	actor = actor_node
 	mediator = mediator_obj
 	_audit_registration()
@@ -59,19 +60,22 @@ func _audit_registration() -> void:
 		if component not in children:
 			_unregister_component(component)
 
-func _register_component(component: Component, force_on: bool=false, force_off: bool=false):
+func _register_component(component: Component, force_on: bool=false, force_off: bool=false) -> void:
 	if not components.has(component):
 		components[component.name] = component
 		component.manager = self
 		component.actor = actor
 		component.mediator = mediator
-		for action in 
+		for action in component.actions:
+			mediator.register_action(action)
 		if force_on:
 			component.enabled = true
 		if force_off:
 			component.enabled = false
 
 func _unregister_component(component: Component):
+	for action in component.actions:
+		mediator.unregister_action(action[1])
 	components.erase(component)
 	component.clean_up()
 

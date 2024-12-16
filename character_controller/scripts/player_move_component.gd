@@ -13,35 +13,15 @@ var acceleration: float = 1000
 var deceleration_factor: float = 3
 
 @export
-var jump_height: float = 150
-
-@export
-var jump_time_to_peak: float = .5
-
-@export
-var jump_time_to_descent: float = .4
-
-@export
 var air_control: float = 800
 
-@export
-var jump_buffer_time: float = .1
 
 var parent: CharacterBody2D
 
-@onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
-@onready var jump_gravity: float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
-@onready var fall_gravity: float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
-
-
-func get_gravity() -> float:
-	return jump_gravity if parent.velocity.y < 0.0 else fall_gravity
 
 func get_movement_direction() -> float:
 	return Input.get_axis('move_left', 'move_right')
-	
-func wants_jump() -> bool:
-	return Input.is_action_just_pressed('jump')
+
 
 func get_parent_acceleration() -> float:
 	'''Run acceleration can be turned on/off on a per-character basis'''
@@ -112,62 +92,3 @@ func get_grounded_velocity(delta: float):
 		velocity = move_direction * base_move_speed
 
 	return velocity
-
-func get_jump(pre_buffered: bool = false) -> bool:
-	"""The pre_buffered argument overrides forces wants_jump to true.
-	This is because the call that evaluates a jump buffering request processes jump input several
-	frames before get_jump is called.  By then the jump input not likely active anymore"""
-	var char_wants_jump: bool
-	char_wants_jump = true if pre_buffered else wants_jump()
-	if parent.remaining_jumps <= 0:
-		return false
-	
-	if parent.is_on_floor():
-		if parent.get('is_dashing') and parent.is_dashing:
-			if parent.can_jump_while_dashing:
-				return char_wants_jump
-			else:
-				return false
-		
-		return char_wants_jump
-	
-	else:
-		if parent.get('is_dashing') and parent.is_dashing:
-			if parent.can_jump_while_air_dashing:
-				return char_wants_jump
-			else:
-				return false
-		return char_wants_jump
-
-func reset_jumps() -> void:
-	if parent.is_on_floor():
-		parent.remaining_jumps = parent.max_jumps
-
-
-func can_buffer_jump() -> bool:
-	var ground_nearby = false
-	var char_collider = parent.get_node('collider')
-	var bottom_y = char_collider.global_position.y + char_collider.shape.height/2
-	var origins = [
-			Vector2(char_collider.global_position.x - char_collider.shape.radius, bottom_y), # Left-bottom
-			Vector2(char_collider.global_position.x, bottom_y), # Center-bottom
-			Vector2(char_collider.global_position.x + char_collider.shape.radius, bottom_y)  # Right-bottom
-		]
-		
-	for origin in origins:
-		var raycast = RayCast2D.new()
-		raycast.enabled = true
-		raycast.position = origin
-		raycast.target_position = Vector2(
-			0,
-			jump_buffer_time * abs(parent.velocity.y)
-		)
-		raycast.collision_mask = 1
-		raycast.collide_with_bodies = true
-		add_child(raycast)
-		raycast.force_raycast_update()
-		if raycast.is_colliding():
-			ground_nearby = true
-		raycast.queue_free()
-
-	return ground_nearby

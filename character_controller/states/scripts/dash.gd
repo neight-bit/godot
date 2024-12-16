@@ -16,33 +16,26 @@ var dash_timer := 0.0
 
 func enter() -> void:
 	super()
-	dash_timer = move_component.dash_time
-	actor.is_dashing = true
+	mediator.start_dashing()
 
 func exit() -> void:
-	actor.is_dashing = false
-	var cooldown_timer = move_component.get_dash_cooldown_timer()
-	actor.add_child(cooldown_timer)
-	cooldown_timer.start()
+	mediator.stop_dashing()
 
 func process_input(event: InputEvent) -> State:
-	if move_component.get_jump():
-		print("jump 4 u")
+	if mediator.request("get_jump"):
 		return jump_state
-	print("no jump 4 u")
 	return null
 
 func process_physics(delta: float) -> State:
-	dash_timer -= delta
-	if dash_timer <= 0.0:
+	if not mediator.is_dashing():
 		if actor.velocity.y > 0:
 			return fall_state
-		if move_component.get_movement_direction() != 0.0:
+		if  mediator.request("get_movement_direction") != 0.0:
 			return move_state
 		return idle_state
 	
 	actor.velocity.y = 0
-	actor.velocity.x = move_component.get_dash_velocity()
+	actor.velocity.x = mediator.request("get_dash_velocity")
 	actor.move_and_slide()
 	
 	return null

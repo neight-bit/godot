@@ -1,11 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://3v3pptw4ot4f"]
 
-[ext_resource type="Script" path="res://states/scripts/idle.gd" id="1_jruse"]
+[ext_resource type="Script" path="res://states/scripts/idle.gd" id="1_45hqr"]
 
-[node name="idle" type="Node" node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state")]
-script = ExtResource("1_jruse")
-fall_state = NodePath("")
-move_state = NodePath("")
-jump_state = NodePath("")
-dash_state = NodePath("")
-animation_name = "idle"
+[node name="idle" type="Node"]
+script = ExtResource("1_45hqr")

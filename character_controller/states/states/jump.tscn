@@ -1,11 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://krts8c2ri2pq"]
 
-[ext_resource type="Script" path="res://states/scripts/jump.gd" id="1_4a5la"]
+[ext_resource type="Script" path="res://states/scripts/jump.gd" id="1_sji7j"]
 
-[node name="jump" type="Node" node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state")]
-script = ExtResource("1_4a5la")
-fall_state = NodePath("")
-move_state = NodePath("")
-idle_state = NodePath("")
-dash_state = NodePath("")
-animation_name = "jump"
+[node name="jump" type="Node"]
+script = ExtResource("1_sji7j")

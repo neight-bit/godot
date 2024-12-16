@@ -11,9 +11,6 @@ var state_machine = $state_machine
 var component_manager = $component_manager
 
 @onready
-var move_component = $move_component
-
-@onready
 var mediator = $mediator
 
 
@@ -22,6 +19,8 @@ var mediator = $mediator
 # The various values for these features are defined in the downstream component(s)
 # I think that there is a solid rationale for inheriting access through the components,
 # but that requires a lot more thought and planning.
+
+
 @export
 var has_acceleration: bool = true
 
@@ -51,6 +50,7 @@ var remaining_jumps: int = max_jumps
 var is_dashing = false
 
 func _ready() -> void:
+	print("initializing player")
 	component_manager.init(self, mediator)
 	state_machine.init(self, mediator, animations)
 	mediator.init(self, component_manager, state_machine)
