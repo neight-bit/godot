@@ -16,10 +16,10 @@ var dash_timer := 0.0
 
 func enter() -> void:
 	super()
-	mediator.start_dashing()
+	mediator.request("start_dashing")
 
 func exit() -> void:
-	mediator.stop_dashing()
+	mediator.request("stop_dashing")
 
 func process_input(event: InputEvent) -> State:
 	if mediator.request("get_jump"):
@@ -27,10 +27,10 @@ func process_input(event: InputEvent) -> State:
 	return null
 
 func process_physics(delta: float) -> State:
-	if not mediator.is_dashing():
+	if not mediator.request("is_dashing"):
 		if actor.velocity.y > 0:
 			return fall_state
-		if  mediator.request("get_movement_direction") != 0.0:
+		if mediator.request("get_movement_direction") != 0.0:
 			return move_state
 		return idle_state
 	

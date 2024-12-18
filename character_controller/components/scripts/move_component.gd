@@ -3,7 +3,7 @@ extends Component
 @export
 var has_acceleration: bool = true
 
-@export_range(0.0, 5000, 1) var acceleration_factor: float = 1.0
+@export_range(0.0, 5000, 1) var acceleration_factor: float = 800
 
 @export
 var base_move_speed: float = 80
@@ -23,30 +23,30 @@ var air_control: float = 800
 
 func _ready():
 	actions = [
-		["wants_jump", 			self, {}],
-		["get_jump",			self, {"pre_buffered": false}],
-		["reset_jumps",			self, {}],
-		['set_max_jumps',		self, {'num_max_jumps': 1}],
-		["get_remaining_jumps",	self, {}],
-		["get_gravity",			self, {}],
+		["get_movement_direction",	self, {}],
+		["get_actor_acceleration",	self, {}],
+		["get_actor_deceleration",	self, {}],
+		['get_airborne_velocity',	self, {'delta': 0, "initial_horizontal_velocity": 0}],
+		["get_grounded_velocity",	self, {'delta': 0}],
+		["get_gravity",				self, {}],
+		["get_max_speed",			self, {}],
 	]
+
+func get_max_speed() -> float:
+	return max_speed
 
 func get_movement_direction() -> float:
 	return Input.get_axis('move_left', 'move_right')
 
-func get_parent_acceleration() -> float:
-	'''Run acceleration can be turned on/off on a per-character basis'''
+func get_actor_acceleration() -> float:
 	if has_acceleration:
 		return acceleration_factor
 	else: 
 		return 1.0
 
-func get_parent_deceleration() -> float:
+func get_actor_deceleration() -> float:
 	"""Check if the character is reversing direction or stopping,"""
-	if has_acceleration:
-		if (parent.get("deceleration_factor") and parent.deceleration_factor):
-			deceleration_factor = parent.deceleration_factor
-	if sign(actor.velocity.x) != sign(get_movement_direction()):
+	if has_acceleration and sign(actor.velocity.x) != sign(get_movement_direction()):
 		return deceleration_factor
 	else:
 		return 1.0
@@ -85,10 +85,10 @@ func get_grounded_velocity(delta: float):
 	var move_direction: float = get_movement_direction()
 	
 	# Get acceleration from character or use default setting
-	acceleration = get_parent_acceleration()
+	acceleration = get_actor_acceleration()
 	# Get deceleration factor 
 	# How quickly does the character turn around or come to a stop
-	var deceleration = get_parent_deceleration()
+	var deceleration = get_actor_deceleration()
 
 	if acceleration > 0:
 		velocity = move_toward(

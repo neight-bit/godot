@@ -42,6 +42,7 @@ func get_component(component_name: String, force_on: bool=false, force_off: bool
 	return component
 
 func _load_component(component_name: String) -> void:
+	print("registering component: " + component_name)
 	var component_script_name: String = _normalize_component_path(component_name)
 	var script = load(component_script_name)
 	var component = script.new() as Component
@@ -58,7 +59,11 @@ func _audit_registration() -> void:
 	for component_name in components:
 		var component = components[component_name]
 		if component not in children:
-			_unregister_component(component)
+			# This is a band-aid that just prevents crashing when we close the game scene.
+			# The components actions won't be unregistered if it is freed before unregistration.
+			# TODO: learn how to actually handle object clean-up
+			if is_instance_valid(component):
+				_unregister_component(component)
 
 func _register_component(component: Component, force_on: bool=false, force_off: bool=false) -> void:
 	if not components.has(component):
@@ -74,8 +79,9 @@ func _register_component(component: Component, force_on: bool=false, force_off: 
 			component.enabled = false
 
 func _unregister_component(component: Component):
+	print("unregistering component: " + str(component.name))
 	for action in component.actions:
-		mediator.unregister_action(action[1])
+		mediator.unregister_action(action[0])
 	components.erase(component)
 	component.clean_up()
 

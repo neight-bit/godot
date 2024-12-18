@@ -18,7 +18,6 @@ var can_buffer_jumps: bool = true
 @export
 var jump_buffer_time: float = .1
 
-
 var remaining_jumps: int
 
 
@@ -28,17 +27,21 @@ var remaining_jumps: int
 
 func _ready():
 	actions = [
-		["wants_jump", 			self, {}],
-		["get_jump",			self, {"pre_buffered": false}],
-		["reset_jumps",			self, {}],
-		['set_max_jumps',		self, {'num_max_jumps': 1}],
-		["get_remaining_jumps",	self, {}],
-		["get_gravity",			self, {}],
+		["wants_jump", 					self, {}],
+		["get_jump",					self, {"pre_buffered": false}],
+		["reset_jumps",					self, {}],
+		['set_max_jumps',				self, {'num_max_jumps': 1}],
+		["get_remaining_jumps",			self, {}],
+		["get_gravity",					self, {}],
+		["get_jump_velocity",			self, {}],
+		["decrement_remaining_jumps",	self, {"qty": 1}],
 	]
 
 func get_gravity() -> float:
 	return jump_gravity if actor.velocity.y < 0.0 else fall_gravity
 
+func get_jump_velocity():
+	return jump_velocity
 
 func wants_jump() -> bool:
 	return Input.is_action_just_pressed('jump')
@@ -81,6 +84,10 @@ func set_max_jumps(num_max_jumps: int) -> void:
 
 func get_remaining_jumps() -> int:
 	return remaining_jumps
+
+func decrement_remaining_jumps(qty: int) -> void:
+	if remaining_jumps > 0:
+		remaining_jumps -= qty
 
 func can_buffer_jump() -> bool:
 	var ground_nearby = false

@@ -10,14 +10,9 @@ var state_machine: StateMachine
 @export
 var actor: Node2D
 
-var properties := {
-	"orientation": 1
-}
-
 var actions := {
 	# [action_name, object_ref, [args]]
 }
-
 
 func init(actor_obj, component_manager_obj, state_machine_obj) -> void:
 	print("Initializing mediator")
@@ -26,18 +21,20 @@ func init(actor_obj, component_manager_obj, state_machine_obj) -> void:
 	state_machine=state_machine_obj
 
 func register_action(args: Array):
+	print("Registering action: " + args[0])
 	if args[0] not in actions:
 		var action_name:	String		=args[0]
 		var target: 		Object		=args[1]
 		var params:			Dictionary	=args[2]
+
 		actions[action_name] = {
 			"method": action_name,
 			"target": target,
 			"params": params
 		}
-		print(actions)
 
 func unregister_action(action_name: String) -> void:
+	print("unregistering action: " + action_name)
 	actions.erase(action_name)
 
 
