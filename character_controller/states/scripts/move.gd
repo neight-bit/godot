@@ -33,8 +33,9 @@ func process_physics(delta: float) -> State:
 
 	actor.velocity.x = mediator.request("get_grounded_velocity", [delta])
 	actor.move_and_slide()
-	
+
 	if !actor.is_on_floor() and not mediator.request("is_dashing"):
+		mediator.request("start_coyote_time")
 		return fall_state
 
 	return null

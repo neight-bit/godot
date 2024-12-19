@@ -370,3 +370,6 @@ actor = NodePath("..")
 [node name="component_manager" parent="." instance=ExtResource("16_kkskd")]
 
 [node name="state_machine" parent="." instance=ExtResource("7_g5vrn")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0

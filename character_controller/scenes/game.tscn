@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://dwi8nw2iu81xt"]
+[gd_scene load_steps=10 format=3 uid="uid://dwi8nw2iu81xt"]
 
 [ext_resource type="PackedScene" uid="uid://f2o7mlu8m06j" path="res://scenes/player.tscn" id="1_cc2nb"]
 [ext_resource type="Texture2D" uid="uid://qmr5e8w0jwun" path="res://icon.svg" id="2_lf3c8"]
 [ext_resource type="Script" path="res://scripts/hud.gd" id="2_p7vg0"]
 [ext_resource type="Script" path="res://scripts/speed_label.gd" id="3_ntylc"]
 [ext_resource type="Script" path="res://scenes/state_label.gd" id="4_1f5ku"]
+[ext_resource type="PackedScene" uid="uid://dmu6idgk1s0pb" path="res://assets/platform.tscn" id="6_ml61j"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3p02b"]
 
@@ -64,3 +65,10 @@ script = ExtResource("4_1f5ku")
 
 [node name="player" parent="." instance=ExtResource("1_cc2nb")]
 position = Vector2(208, 304)
+
+[node name="Platform" parent="." instance=ExtResource("6_ml61j")]
+position = Vector2(34, 245)
+
+[node name="Platform2" parent="." instance=ExtResource("6_ml61j")]
+position = Vector2(306, 166)
+scale = Vector2(4.12, 1)
