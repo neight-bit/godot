@@ -37,7 +37,7 @@ func process_physics(delta: float) -> State:
 	
 	var movement_direction = mediator.request("get_movement_direction")
 	mediator.request("set_orientation", [movement_direction])
-	mediator.request("get_airborne_velocity", [delta, initial_horizontal_velocity])
+	actor.velocity.x = mediator.request("get_airborne_velocity", [delta, initial_horizontal_velocity])
 	actor.move_and_slide()
 
 	return null

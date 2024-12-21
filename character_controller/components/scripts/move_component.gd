@@ -12,7 +12,7 @@ var base_move_speed: float = 80
 var max_speed: float = 400
 
 @export
-var acceleration: float = 1000
+var acceleration: float
 
 @export
 var deceleration_factor: float = 3
@@ -55,26 +55,27 @@ func get_airborne_velocity(delta: float, initial_horizontal_velocity: float) -> 
 	"""Allow a character to continue at the absolute speed they had when they left the ground.
 	If they change direction in mid-air, they can re-accelerate back up to the initial speed in the opposie direction, 
 	but not exceed intial velocity"""
-	
+
+	if not has_acceleration:
+		return get_grounded_velocity(delta)
+
 	var direction: float = get_movement_direction()
-	var target_velocity = abs(initial_horizontal_velocity) * direction
-	var max_allowed_speed = max(
-		abs(initial_horizontal_velocity), 
-		max_speed
-	)
+	var target_velocity = [abs(initial_horizontal_velocity), max_speed / 3].max()
+
 	var clamped_velocity = clamp(
 		move_toward(
 			actor.velocity.x, 
-			target_velocity, 
+			target_velocity  * direction, 
 			air_control * delta
 		),
-		-max_allowed_speed,
-		max_allowed_speed
+		-target_velocity,
+		target_velocity
 	)
+	
 	if sign(clamped_velocity) != sign(initial_horizontal_velocity) and direction != 0:
 		clamped_velocity = move_toward(
 			clamped_velocity,
-			target_velocity,
+			target_velocity * direction,
 			air_control * delta
 	)
 	return clamped_velocity
@@ -83,14 +84,10 @@ func get_grounded_velocity(delta: float):
 	"""Velocity can be determined via upstream properties to either be a flat value, or use accleration"""
 	var velocity: float
 	var move_direction: float = get_movement_direction()
-	
-	# Get acceleration from character or use default setting
-	acceleration = get_actor_acceleration()
-	# Get deceleration factor 
-	# How quickly does the character turn around or come to a stop
-	var deceleration = get_actor_deceleration()
 
-	if acceleration > 0:
+	if has_acceleration:
+		acceleration = get_actor_acceleration()
+		var deceleration = get_actor_deceleration()
 		velocity = move_toward(
 			actor.velocity.x, 
 			move_direction * max_speed, 
