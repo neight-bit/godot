@@ -1,7 +1,8 @@
-[gd_scene load_steps=55 format=3 uid="uid://f2o7mlu8m06j"]
+[gd_scene load_steps=62 format=3 uid="uid://f2o7mlu8m06j"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_viy72"]
 [ext_resource type="Texture2D" uid="uid://drux1vcwlkiab" path="res://assets/player/sprites/01_soldier_idle.png" id="2_j1yvt"]
+[ext_resource type="Texture2D" uid="uid://dtqdvcehq1cgt" path="res://assets/player/sprites/01_soldier_use_ladder.png" id="2_t6yyb"]
 [ext_resource type="Texture2D" uid="uid://cw0qibjxb17u0" path="res://assets/player/sprites/01_soldier_jump_02_falling.png" id="3_fwixh"]
 [ext_resource type="Texture2D" uid="uid://d387k2380ov45" path="res://assets/player/sprites/block_impact.png" id="3_tgxp4"]
 [ext_resource type="Texture2D" uid="uid://bckihkeugb7ty" path="res://assets/player/sprites/01_soldier_run.png" id="4_y3kn8"]
@@ -16,6 +17,30 @@
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tw8kx"]
 radius = 12.0
 height = 58.6956
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5cd8p"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(0, 0, 30, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2vyy"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(30, 0, 30, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e0whg"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(60, 0, 30, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4odud"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(90, 0, 30, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kliy3"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(120, 0, 30, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vg7x"]
+atlas = ExtResource("2_t6yyb")
+region = Rect2(150, 0, 30, 65)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jo2xl"]
 atlas = ExtResource("3_tgxp4")
@@ -185,6 +210,29 @@ region = Rect2(603, 0, 67, 53)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_5cd8p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2vyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e0whg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4odud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kliy3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vg7x")
+}],
+"loop": true,
+"name": &"climb",
+"speed": 12.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_jo2xl")
 }],
 "loop": false,
@@ -338,6 +386,7 @@ animations = [{
 }]
 
 [node name="player" type="CharacterBody2D"]
+collision_mask = 14
 script = ExtResource("1_viy72")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -360,7 +409,7 @@ texture_repeat = 2
 position = Vector2(1.90854, -3.5)
 scale = Vector2(1.0122, 1)
 sprite_frames = SubResource("SpriteFrames_4od4e")
-animation = &"land"
+animation = &"climb"
 
 [node name="mediator" parent="." node_paths=PackedStringArray("component_manager", "state_machine", "actor") instance=ExtResource("13_u51o7")]
 component_manager = NodePath("../component_manager")

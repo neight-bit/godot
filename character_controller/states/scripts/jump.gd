@@ -14,9 +14,6 @@ var dash_state: State
 
 var initial_horizontal_velocity: float
 
-func _init() -> void:
-	required_components = ["jump_component"]
-
 func enter() -> void:
 	super()
 	initial_horizontal_velocity = actor.velocity.x

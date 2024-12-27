@@ -47,6 +47,7 @@ func _ready():
 		['start_coyote_time',			self, {}],
 		['stop_coyote_time',			self, {}],
 		['is_in_coyote_time',			self, {}],
+		['can_buffer_jump',				self, {}],
 	]
 
 func get_gravity() -> float:
@@ -174,4 +175,3 @@ func _get_timer(timer_name: String) -> Timer:
 		if child.name == timer_name:
 			return child
 	return null
-

@@ -3,6 +3,7 @@
 
 # Godot-specific ignores
 .import/
+*.tmp
 # export.cfg
 # export_presets.cfg
 
@@ -13,3 +14,5 @@
 .mono/
 data_*/
 mono_crash.*.json
+
+addons/

@@ -12,6 +12,9 @@ var jump_state: State
 @export
 var dash_state: State
 
+@export
+var climb_state: State
+
 func enter() -> void:
 	super()
 	mediator.request("reset_jumps")
@@ -21,6 +24,8 @@ func process_input(_event: InputEvent) -> State:
 		return jump_state
 	if mediator.request("get_dash"):
 		return dash_state
+	if mediator.request("get_climb"):
+		return climb_state
 	return null
 
 func process_physics(delta: float) -> State:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dwi8nw2iu81xt"]
+[gd_scene load_steps=11 format=3 uid="uid://dwi8nw2iu81xt"]
 
 [ext_resource type="PackedScene" uid="uid://f2o7mlu8m06j" path="res://scenes/player.tscn" id="1_cc2nb"]
 [ext_resource type="Texture2D" uid="uid://qmr5e8w0jwun" path="res://icon.svg" id="2_lf3c8"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://scripts/speed_label.gd" id="3_ntylc"]
 [ext_resource type="Script" path="res://scenes/state_label.gd" id="4_1f5ku"]
 [ext_resource type="PackedScene" uid="uid://dmu6idgk1s0pb" path="res://assets/platform.tscn" id="6_ml61j"]
+[ext_resource type="PackedScene" uid="uid://ddnaqyy05oyru" path="res://assets/ladder.tscn" id="7_nc1xx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3p02b"]
 
@@ -18,7 +19,8 @@ font_size = 12
 [node name="game" type="Node2D"]
 
 [node name="Ground" type="StaticBody2D" parent="."]
-position = Vector2(585, 383)
+position = Vector2(584, 371)
+collision_layer = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Ground"]
 scale = Vector2(300, 5)
@@ -63,12 +65,21 @@ offset_bottom = -149.0
 label_settings = SubResource("LabelSettings_votku")
 script = ExtResource("4_1f5ku")
 
-[node name="player" parent="." instance=ExtResource("1_cc2nb")]
-position = Vector2(208, 304)
-
 [node name="Platform" parent="." instance=ExtResource("6_ml61j")]
-position = Vector2(34, 245)
+position = Vector2(-112, 240)
+scale = Vector2(12, 1)
 
 [node name="Platform2" parent="." instance=ExtResource("6_ml61j")]
-position = Vector2(306, 166)
-scale = Vector2(4.12, 1)
+position = Vector2(144, 176)
+scale = Vector2(36, 1)
+
+[node name="Ladder" parent="." instance=ExtResource("7_nc1xx")]
+position = Vector2(736, 312)
+height_in_tiles = 10
+
+[node name="player" parent="." instance=ExtResource("1_cc2nb")]
+position = Vector2(206, 302)
+
+[node name="Platform3" parent="." instance=ExtResource("6_ml61j")]
+position = Vector2(752, 176)
+scale = Vector2(32, 1)

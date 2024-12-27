@@ -1,0 +1,47 @@
+[gd_scene load_steps=7 format=3 uid="uid://ddnaqyy05oyru"]
+
+[ext_resource type="Script" path="res://scripts/ladder.gd" id="1_g4c05"]
+[ext_resource type="Texture2D" uid="uid://d3vifm27ay7ug" path="res://assets/ladder_top.png" id="2_ijuqw"]
+[ext_resource type="Texture2D" uid="uid://cqklr02sxjncx" path="res://assets/ladder_middle.png" id="3_iot67"]
+[ext_resource type="Texture2D" uid="uid://bp86qcpevx6l0" path="res://ladder_bottom.png" id="4_iqdpu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjpaf"]
+size = Vector2(32, 168)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq18k"]
+size = Vector2(32, 2)
+
+[node name="Ladder" type="Node2D"]
+position = Vector2(16, -8)
+script = ExtResource("1_g4c05")
+height_in_tiles = 1
+
+[node name="middle_container" type="Node2D" parent="."]
+
+[node name="ladder_middle" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_iot67")
+
+[node name="ladder_bottom" type="Sprite2D" parent="."]
+texture = ExtResource("4_iqdpu")
+
+[node name="ladder_top" type="Sprite2D" parent="."]
+position = Vector2(0, -12)
+texture = ExtResource("2_ijuqw")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -4)
+shape = SubResource("RectangleShape2D_xjpaf")
+
+[node name="pass_thru_platform" type="StaticBody2D" parent="."]
+position = Vector2(0, -16)
+collision_layer = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="pass_thru_platform"]
+position = Vector2(0, 9)
+shape = SubResource("RectangleShape2D_hq18k")
+one_way_collision = true
+debug_color = Color(0.870588, 0.223529, 0.67451, 0.721569)

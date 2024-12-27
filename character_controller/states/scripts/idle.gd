@@ -12,6 +12,9 @@ var jump_state: State
 @export
 var dash_state: State
 
+@export
+var climb_state: State
+
 func enter() -> void:
 	super()
 	actor.velocity.x = 0
@@ -24,6 +27,8 @@ func process_input(event: InputEvent) -> State:
 		return dash_state
 	if mediator.request("get_movement_direction") != 0.0:
 		return move_state
+	if mediator.request("get_climb"):
+		return climb_state
 
 	return null
 

@@ -6,7 +6,7 @@ var has_acceleration: bool = true
 @export_range(0.0, 5000, 1) var acceleration_factor: float = 800
 
 @export
-var base_move_speed: float = 80
+var base_move_speed: float = 300
 
 @export
 var max_speed: float = 400
