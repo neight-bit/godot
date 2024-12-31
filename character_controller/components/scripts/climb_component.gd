@@ -1,50 +1,87 @@
 extends Component
 
+# region setup
+
 @export var can_use_ladders: bool = true
 
 @export var climbing_speed := {up=150, down=300}
 
-@onready
-var _on_ladder: bool
+@export var can_jump_during_climb: bool = true
 
 @onready
 var current_ladder: Ladder
 
 @onready
+var ladder_below_actor: Ladder
+
+@onready
 var is_on_ladder: bool:
 	get:
-		return _on_ladder
-	set(value):
-		_on_ladder = value
+		if current_ladder == null:
+			return false
+		return true
+
+@onready
+var is_above_ladder: bool:
+	get:
+		if ladder_below_actor == null:
+			return false
+		return true
+
+@onready
+var pass_thru_platform_collsion_mask: int = Utils.get_layer_by_name("pass_thru")
+
+@onready
+var ladder_collsion_mask: int = Utils.get_layer_by_name("ladders")
 
 func _ready():
 	EventBus.service().subscribe("BODY_ON_LADDER_DETECTION", self, "_on_body_on_ladder_event")
+	
 	actions = [
-		["get_climb",				self, {}],
-		["get_climb_direction",		self, {}],
-		["get_climb_velocity",		self, {}],
-		["is_currently_on_ladder",	self, {}],
-		["start_climbing",			self, {}],
+		["get_climb",						self, {}],
+		["get_climb_direction",				self, {}],
+		["get_climb_velocity",				self, {}],
+		["is_currently_on_ladder",			self, {}],
+		["is_currently_above_ladder",		self, {}],
+		["start_climbing",					self, {}],
+		["reset_ladder_pass_thru_collider",	self, {}],
+		["can_jump_while_climbing",			self, {}],
 	]
 
+# endregion
+
+
+# region methods
+
 func _on_body_on_ladder_event(event: Event):
-	print(event.is_on_ladder)
 	if event.body == actor:
 		if event.is_on_ladder:
-			current_ladder = event.ladder
-			is_on_ladder = true
-		if ! event.is_on_ladder and is_on_ladder:
-			stop_climbing()
+			if event.section == "main":
+				current_ladder = event.ladder
+			elif event.section == "top":
+				ladder_below_actor = event.ladder
 
+		if ! event.is_on_ladder:
+			if event.section == "main":
+				reset_ladder_pass_thru_collider()
+				current_ladder = null
+			elif event.section == "top":
+				ladder_below_actor = null
 
 func is_currently_on_ladder() -> bool:
 	return is_on_ladder
+
+func is_currently_above_ladder() -> bool:
+	return is_above_ladder
 
 func get_climb() -> bool:
 	if can_use_ladders:
 		if is_on_ladder:
 			if Input.is_action_pressed("climb_up") \
 			or Input.is_action_pressed("climb_down"):
+				return true
+		elif is_above_ladder:
+			if Input.is_action_pressed("climb_down"):
 				return true
 	return false
 
@@ -66,30 +103,17 @@ func get_climb_velocity() -> int:
 	return 0
 
 func start_climbing() -> void:
+	if not current_ladder:
+		current_ladder = ladder_below_actor
+		ladder_below_actor = null
 	actor.position.x = current_ladder.position.x
 	current_ladder.get_pass_thru_platfrom().collision_layer = 0
 
-func stop_climbing() -> void:
-	current_ladder.get_pass_thru_platfrom().collision_layer = Utils.get_layer_by_name("pass_thru")
-	current_ladder = null
-	is_on_ladder = false
+func reset_ladder_pass_thru_collider() -> void:
+	if current_ladder:
+		current_ladder.get_pass_thru_platfrom().collision_layer = pass_thru_platform_collsion_mask
 
-func is_just_above_ladder() -> bool:
-	var ladder_below := false
-	var char_collider = actor.get_node('collider')
-	var raycast = RayCast2D.new()
-	raycast.position = Vector2(
-		char_collider.global_position.x,
-		char_collider.global_position.y + char_collider.shape.height/2
-	)
-	raycast.target_position = Vector2(
-		0,
-		4
-	)
-	raycast.collision_mask = 4
-	raycast.collide_with_bodies = true
-	raycast.force_raycast_update()
-	if raycast.is_colliding():
-		ladder_below = true
-	raycast.queue_free()
-	return ladder_below
+func can_jump_while_climbing() -> bool:
+	return can_jump_during_climb
+
+# endregion

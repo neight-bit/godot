@@ -77,6 +77,11 @@ func get_jump(pre_buffered: bool=false) -> bool:
 		
 		return char_wants_jump
 	
+	elif mediator.request("is_currently_on_ladder"):
+		if mediator.request("can_jump_while_climbing"):
+			return char_wants_jump
+		return false
+	
 	elif max_jumps > 1:
 		# double jumping enabled
 		if mediator.request('is_dashing'):

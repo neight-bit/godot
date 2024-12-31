@@ -12,6 +12,9 @@ var idle_state: State
 @export
 var dash_state: State
 
+@export
+var climb_state: State
+
 var initial_horizontal_velocity: float
 
 func enter() -> void:
@@ -25,6 +28,8 @@ func process_input(_event: InputEvent) -> State:
 		return dash_state
 	if mediator.request("get_jump"):
 		return self
+	if mediator.request("get_climb"):
+		return climb_state
 	return null
 
 func process_physics(delta: float) -> State:

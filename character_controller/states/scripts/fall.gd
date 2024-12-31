@@ -12,6 +12,9 @@ var jump_state: State
 @export
 var dash_state: State
 
+@export
+var climb_state: State
+
 var initial_horizontal_velocity: float
 
 var jump_buffered: bool
@@ -25,6 +28,9 @@ func enter() -> void:
 func process_input(_event: InputEvent) -> State:
 	if mediator.request("get_dash"):
 		return dash_state
+
+	if mediator.request("get_climb"):
+		return climb_state
 
 	if mediator.request("wants_jump"):
 		# First see if we can use jump buffer

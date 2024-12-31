@@ -22,11 +22,12 @@ jump_state = NodePath("../jump")
 fall_state = NodePath("../fall")
 animation_name = "dash"
 
-[node name="fall" parent="." node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "dash_state") instance=ExtResource("4_y8y2n")]
+[node name="fall" parent="." node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "dash_state", "climb_state") instance=ExtResource("4_y8y2n")]
 idle_state = NodePath("../idle")
 move_state = NodePath("../move")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
 animation_name = "fall"
 
 [node name="idle" parent="." node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state", "climb_state") instance=ExtResource("2_dy5fw")]
@@ -45,11 +46,12 @@ dash_state = NodePath("../dash")
 climb_state = NodePath("../climb")
 animation_name = "move"
 
-[node name="jump" parent="." node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state") instance=ExtResource("5_d2u75")]
+[node name="jump" parent="." node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state", "climb_state") instance=ExtResource("5_d2u75")]
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 idle_state = NodePath("../idle")
 dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
 animation_name = "jump"
 
 [node name="climb" parent="." node_paths=PackedStringArray("move_state", "jump_state", "fall_state", "idle_state") instance=ExtResource("8_s1fka")]

@@ -15,8 +15,9 @@
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_0v3yh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tw8kx"]
+custom_solver_bias = 1.0
 radius = 12.0
-height = 58.6956
+height = 51.82
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5cd8p"]
 atlas = ExtResource("2_t6yyb")
@@ -400,7 +401,6 @@ texture = SubResource("PlaceholderTexture2D_0v3yh")
 
 [node name="collider" type="CollisionShape2D" parent="."]
 position = Vector2(0.908535, -2.5)
-scale = Vector2(1, -0.92)
 shape = SubResource("CapsuleShape2D_tw8kx")
 
 [node name="animations" type="AnimatedSprite2D" parent="."]

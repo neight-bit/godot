@@ -13,15 +13,15 @@ var fall_state: State
 var idle_state: State
 
 func enter() -> void:
+	actor.velocity.x = 0
 	super()
 	animations.stop()
-	actor.velocity.x = 0
 	mediator.request("start_climbing")
 
 func exit() -> void:
 	super()
 	animations.speed_scale = 1
-	mediator.request("stop_climbing")
+	mediator.request("reset_ladder_pass_thru_collider")
 
 func process_input(_event: InputEvent) -> State:
 	if mediator.request("get_jump"):
@@ -37,7 +37,7 @@ func process_physics(delta: float) -> State:
 	if not on_ladder:
 		if actor.is_on_floor():
 			return idle_state
-		return fall_state
+		return idle_state
 	
 	var climb_velocity = mediator.request("get_climb_velocity")
 	if climb_velocity:
@@ -49,9 +49,8 @@ func process_physics(delta: float) -> State:
 			animations.speed_scale = 1
 			animations.play(animation_name)
 	else:
-		animations.speed_scale = 1
 		animations.pause()
-
+		animations.speed_scale = 1
 	actor.move_and_slide()
 
 	return null

@@ -78,7 +78,7 @@ position = Vector2(736, 312)
 height_in_tiles = 10
 
 [node name="player" parent="." instance=ExtResource("1_cc2nb")]
-position = Vector2(206, 302)
+position = Vector2(619, 136)
 
 [node name="Platform3" parent="." instance=ExtResource("6_ml61j")]
 position = Vector2(752, 176)

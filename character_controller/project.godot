@@ -77,6 +77,7 @@ climb_down={
 2d_physics/layer_2="ground"
 2d_physics/layer_3="pass_thru"
 2d_physics/layer_4="ladders"
+2d_physics/stretch/scale=3.0
 
 [rendering]
 
