@@ -12,6 +12,9 @@ var jump_state: State
 @export
 var dash_state: State
 
+@export
+var climb_state: State
+
 var initial_horizontal_velocity: float
 
 var jump_buffered: bool
@@ -19,39 +22,42 @@ var jump_buffered: bool
 
 func enter() -> void:
 	super()
-	initial_horizontal_velocity = parent.velocity.x
+	initial_horizontal_velocity = actor.velocity.x
 	jump_buffered = false
 
 func process_input(_event: InputEvent) -> State:
-	if move_component.get_dash():
+	if mediator.request("get_dash"):
 		return dash_state
 
-	if move_component.wants_jump():
+	if mediator.request("get_climb"):
+		return climb_state
+
+	if mediator.request("wants_jump"):
 		# First see if we can use jump buffer
 		# This is so that an early jump button press is not accidentally interpreted
 		# as an attempt to double-jump
-		if move_component.can_buffer_jump():
+		if mediator.request("can_buffer_jump"):
 			jump_buffered = true
 			return null
 
-		if move_component.get_jump():
+		if mediator.request("get_jump"):
 			return jump_state
 
 	return null
 
 func process_physics(delta: float) -> State:
-	parent.velocity.y += move_component.get_gravity() * delta
-	var movement_direction = move_component.get_movement_direction()
-	parent.orientation = movement_direction
-	parent.velocity.x = move_component.get_airborne_velocity(delta, initial_horizontal_velocity)
-	parent.move_and_slide()
+	actor.velocity.y += mediator.request("get_gravity") * delta
+	var movement_direction = mediator.request("get_movement_direction")
+	mediator.request("set_orientation", [movement_direction])
+	actor.velocity.x = mediator.request("get_airborne_velocity", [delta, initial_horizontal_velocity])
+	actor.move_and_slide()
 
-	if parent.is_on_floor():
+	if actor.is_on_floor():
 		if jump_buffered:
-			move_component.reset_jumps()
+			mediator.request("reset_jumps")
 			# Pass in the true argument so simulate a jump button press
 			# Since the input likely triggered several ticks ago and is no longer firing
-			if move_component.get_jump(true):
+			if mediator.request("get_jump", [true]):
 				return jump_state
 		# TODO: This animation doesn't actually play yet because it is overridden by the baste state's enter.animations.play method
 		if animations and "land" in animations.sprite_frames.get_animation_names():

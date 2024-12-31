@@ -8,63 +8,23 @@ var animations = $animations
 var state_machine = $state_machine
 
 @onready
-var move_component = $move_component
+var component_manager = $component_manager
 
-#region abilities
-# For now, whether or not a character has *access* to a certain feature is defined here
-# The various values for these features are defined in the downstream component(s)
-# I think that there is a solid rationale for inheriting access through the components,
-# but that requires a lot more thought and planning.
-@export
-var has_acceleration: bool = true
-
-@export 
-var can_dash: bool = true
-
-@export
-var can_air_dash: bool = true
-
-@export
-var can_jump_while_dashing: bool = true
-
-@export
-var can_jump_while_air_dashing: bool = true
-
-@export 
-var can_buffer_jumps: bool = true
-
-@export
-var max_jumps: int = 1
-
-@export_range(0.0, 5000, 1) var acceleration_factor: float = 0.0
-#endregion
-
-var orientation: float:
-	get:
-		return orientation if orientation else 1.0
-	set(value):
-		if value < 0:
-			self.animations.flip_h = true
-			orientation = value
-		if value > 0:
-			self.animations.flip_h = false
-			orientation = value
-		if value == 0:
-			# don't flip the sprite's direction
-			pass
-
-var remaining_jumps: int = max_jumps
-
-var is_dashing = false
+@onready
+var mediator = $mediator
 
 func _ready() -> void:
-	state_machine.init(self, animations, move_component)
+	print("initializing player")
+	component_manager.init(self, mediator)
+	state_machine.init(self, mediator, animations)
+	mediator.init(self, component_manager, state_machine)
+	Utils.get_layer_by_name("ladders", "2d_physics")
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.process_input(event)
 	
 func _physics_process(delta: float) -> void:
 	state_machine.process_physics(delta)
-	
+
 func _process(delta: float) -> void:
 	state_machine.process_frame(delta)

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbtl3lhf8jhb4"]
+
+[ext_resource type="Script" path="res://states/scripts/dash.gd" id="1_h5s50"]
+
+[node name="dash" type="Node"]
+script = ExtResource("1_h5s50")

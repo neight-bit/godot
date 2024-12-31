@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1vsy2cykpjfj"]
+
+[ext_resource type="Script" path="res://states/scripts/climb.gd" id="1_brpwo"]
+
+[node name="climb" type="Node"]
+script = ExtResource("1_brpwo")
