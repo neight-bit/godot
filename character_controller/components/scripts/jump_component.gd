@@ -63,12 +63,20 @@ func get_jump(pre_buffered: bool=false) -> bool:
 	"""The pre_buffered argument overrides forces wants_jump to true.
 	This is because the call that evaluates a jump buffering request processes jump input several
 	frames before get_jump is called.  By then the jump input not likely active anymore"""
+
 	var char_wants_jump: bool
 	char_wants_jump = true if pre_buffered else wants_jump()
-	if remaining_jumps <= 0:
+	
+	if mediator.request("is_currently_on_ladder"):
+		print("get jump on ladder")
+		if mediator.request("can_jump_while_climbing"):
+			return char_wants_jump
 		return false
 	
-	if actor.is_on_floor():
+	if remaining_jumps <= 0:
+		return false
+
+	elif actor.is_on_floor():
 		if mediator.request('is_dashing'):
 			if mediator.request("can_jump_while_dashing"):
 				return char_wants_jump
@@ -76,11 +84,6 @@ func get_jump(pre_buffered: bool=false) -> bool:
 				return false
 		
 		return char_wants_jump
-	
-	elif mediator.request("is_currently_on_ladder"):
-		if mediator.request("can_jump_while_climbing"):
-			return char_wants_jump
-		return false
 	
 	elif max_jumps > 1:
 		# double jumping enabled
