@@ -1,17 +1,26 @@
 [gd_scene load_steps=8 format=3 uid="uid://ddnaqyy05oyru"]
 
 [ext_resource type="Script" path="res://scripts/ladder.gd" id="1_g4c05"]
-[ext_resource type="Texture2D" uid="uid://d3vifm27ay7ug" path="res://assets/ladder_top.png" id="2_ijuqw"]
-[ext_resource type="Texture2D" uid="uid://cqklr02sxjncx" path="res://assets/ladder_middle.png" id="3_iot67"]
-[ext_resource type="Texture2D" uid="uid://bp86qcpevx6l0" path="res://ladder_bottom.png" id="4_iqdpu"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q4vk3"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_u124e"]
+load_path = "res://.godot/imported/ladder_middle.png-345640083effe6786e64802f2eabc6a1.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_mcpj4"]
+load_path = "res://.godot/imported/ladder_bottom.png-4ad8f085b0827576011c4e8e2fcf56d7.ctex"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4q6by"]
+load_path = "res://.godot/imported/ladder_top.png-693bc8eabe42232a47005141a7fc31ca.ctex"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bahve"]
+resource_local_to_scene = true
 size = Vector2(32, 8)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xjpaf"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_puhme"]
+resource_local_to_scene = true
 size = Vector2(32, 160)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hq18k"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1tqra"]
+resource_local_to_scene = true
 size = Vector2(32, 2)
 
 [node name="Ladder" type="Node2D"]
@@ -23,28 +32,28 @@ height_in_tiles = 1
 
 [node name="ladder_middle" type="Sprite2D" parent="."]
 visible = false
-texture = ExtResource("3_iot67")
+texture = SubResource("CompressedTexture2D_u124e")
 
 [node name="ladder_bottom" type="Sprite2D" parent="."]
-texture = ExtResource("4_iqdpu")
+texture = SubResource("CompressedTexture2D_mcpj4")
 
 [node name="ladder_top" type="Sprite2D" parent="."]
 position = Vector2(0, -12)
-texture = ExtResource("2_ijuqw")
+texture = SubResource("CompressedTexture2D_4q6by")
 
 [node name="ladder_top_area" type="Area2D" parent="."]
 collision_layer = 8
 
 [node name="ladder_top_collider" type="CollisionShape2D" parent="ladder_top_area"]
 position = Vector2(0, -12)
-shape = SubResource("RectangleShape2D_q4vk3")
+shape = SubResource("RectangleShape2D_bahve")
 debug_color = Color(0.600155, 0.542042, 0.101587, 0.42)
 
 [node name="ladder_main_area" type="Area2D" parent="."]
 collision_layer = 8
 
 [node name="ladder_main_collider" type="CollisionShape2D" parent="ladder_main_area"]
-shape = SubResource("RectangleShape2D_xjpaf")
+shape = SubResource("RectangleShape2D_puhme")
 
 [node name="pass_thru_platform" type="StaticBody2D" parent="."]
 position = Vector2(0, -8)
@@ -52,7 +61,7 @@ collision_layer = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="pass_thru_platform"]
 position = Vector2(0, 1)
-shape = SubResource("RectangleShape2D_hq18k")
+shape = SubResource("RectangleShape2D_1tqra")
 one_way_collision = true
 one_way_collision_margin = 4.0
 debug_color = Color(0.870588, 0.223529, 0.67451, 0.721569)

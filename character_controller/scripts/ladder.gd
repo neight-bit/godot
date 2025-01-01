@@ -5,10 +5,17 @@ class_name Ladder
 @onready var ladder_bottom:			Sprite2D 			= $ladder_bottom
 @onready var ladder_middle:			Sprite2D 			= $ladder_middle
 @onready var ladder_top:			Sprite2D 			= $ladder_top
+
 @onready var middle_container:		Node2D 				= $middle_container
+
 @onready var ladder_main_area:		Area2D 				= $ladder_main_area
+@onready var ladder_main_collider:	CollisionShape2D	= ladder_main_area.get_child(0)
+
 @onready var ladder_top_area:		Area2D 				= $ladder_top_area
+@onready var ladder_top_collider:	CollisionShape2D	= ladder_top_area.get_child(0)
+
 @onready var pass_thru_platform:	StaticBody2D 		= $pass_thru_platform
+
 @onready var _height: 				int
 @onready var ladder_width:			int
 
@@ -67,10 +74,10 @@ func get_total_height_in_pixels() -> int:
 	return get_bottom_height() + get_middle_height() + get_top_height()
 
 func update_collision_shape():
-	$ladder_main_area/ladder_main_collider.shape.set_size(Vector2(ladder_width, get_bottom_height() + get_middle_height()))
-	$ladder_main_area/ladder_main_collider.position.y = (get_bottom_height() + get_middle_height())/-2.0 + get_top_height()
-	$ladder_top_area/ladder_top_collider.shape.set_size(Vector2(ladder_width, get_top_height()))
-	$ladder_top_area/ladder_top_collider.position.y -= get_middle_height()
+	ladder_main_collider.shape.set_size(Vector2(ladder_width, get_bottom_height() + get_middle_height()))
+	ladder_main_collider.position.y = (get_bottom_height() + get_middle_height())/-2.0 + get_top_height()
+	ladder_top_collider.shape.set_size(Vector2(ladder_width, get_top_height()))
+	ladder_top_collider.position.y = get_top_height()/2 - (get_bottom_height() + get_middle_height())
 
 func _on_body_entered_main_ladder_area(body):
 		var event = LadderDetectionEvent.new(body, self, true, 'main')
