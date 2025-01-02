@@ -1,7 +1,7 @@
 extends State
 
 @export
-var fall_state: State
+var idle_state: State
 
 @export 
 var move_state: State
@@ -15,17 +15,12 @@ var dash_state: State
 @export
 var climb_state: State
 
-@export
-var attack_state: State
-
-func enter() -> void:
+func enter():
 	super()
-	actor.velocity.x = 0
-	mediator.request("reset_jumps")
 
 func process_input(event: InputEvent) -> State:
-	if mediator.request("get_attack"):
-		return attack_state
+	if animations.is_playing():
+		return null
 	if mediator.request("get_jump") and actor.is_on_floor():
 		return jump_state
 	if mediator.request("get_dash"):
@@ -34,13 +29,13 @@ func process_input(event: InputEvent) -> State:
 		return move_state
 	if mediator.request("get_climb"):
 		return climb_state
-	return null
+	return idle_state
 
 func process_physics(delta: float) -> State:
-	actor.velocity.y += mediator.request("get_gravity") * delta
-	actor.move_and_slide()
-
-	if !actor.is_on_floor():
-		return fall_state
-
-	return null
+	
+	# actor.velocity.x = mediator.request("get_grounded_decelerating_velocity", [delta])
+	# actor.move_and_slide()
+	
+	if animations.is_playing():
+		return null
+	else: return idle_state

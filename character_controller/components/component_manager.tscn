@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dfega4rxiaor"]
+[gd_scene load_steps=9 format=3 uid="uid://dfega4rxiaor"]
 
 [ext_resource type="Script" path="res://components/component_manager.gd" id="1_ctjpf"]
 [ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/components/base_component.tscn" id="2_3ieae"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/components/move_component.tscn" id="5_fwycx"]
 [ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/components/null_component.tscn" id="6_l3kat"]
 [ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/components/climb_component.tscn" id="7_4lbj8"]
+[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/components/attack_component.tscn" id="8_pm17l"]
 
 [node name="component_manager" type="Node"]
 script = ExtResource("1_ctjpf")
@@ -23,3 +24,5 @@ base_move_speed = 400.0
 [node name="null_component" parent="." instance=ExtResource("6_l3kat")]
 
 [node name="climb_component" parent="." instance=ExtResource("7_4lbj8")]
+
+[node name="attack_component" parent="." instance=ExtResource("8_pm17l")]

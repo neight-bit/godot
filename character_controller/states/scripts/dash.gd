@@ -12,8 +12,6 @@ var jump_state: State
 @export
 var fall_state: State
 
-var dash_timer := 0.0
-
 func enter() -> void:
 	super()
 	mediator.request("start_dashing")

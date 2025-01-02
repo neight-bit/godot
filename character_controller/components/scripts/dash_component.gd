@@ -39,7 +39,7 @@ func wants_dash() -> bool:
 	return Input.is_action_just_pressed('dash')
 
 func get_dash() -> bool:
-	if actor.has_node("DashCooldownTimer"):
+	if _has_timer("DashCooldownTimer"):
 		return false
 	if wants_dash():
 		if not _can_dash:

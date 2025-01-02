@@ -1,19 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://jlo3cy0u2kuq"]
+[gd_scene load_steps=10 format=3 uid="uid://jlo3cy0u2kuq"]
 
 [ext_resource type="Script" path="res://states/state_machine.gd" id="1_uxmty"]
-[ext_resource type="PackedScene" uid="uid://nl3bs1mrhuk5" path="res://states/states/base_state.tscn" id="1_xjqm6"]
+[ext_resource type="PackedScene" uid="uid://wv3of801cnel" path="res://states/states/base_state.tscn" id="1_xjqm6"]
 [ext_resource type="PackedScene" uid="uid://3v3pptw4ot4f" path="res://states/states/idle.tscn" id="2_dy5fw"]
 [ext_resource type="PackedScene" uid="uid://lqoxs6chahe6" path="res://states/states/move.tscn" id="3_v6g1h"]
 [ext_resource type="PackedScene" uid="uid://l6ft28uu5324" path="res://states/states/fall.tscn" id="4_y8y2n"]
 [ext_resource type="PackedScene" uid="uid://krts8c2ri2pq" path="res://states/states/jump.tscn" id="5_d2u75"]
 [ext_resource type="PackedScene" uid="uid://cbtl3lhf8jhb4" path="res://states/states/dash.tscn" id="6_m0mjy"]
 [ext_resource type="PackedScene" uid="uid://b1vsy2cykpjfj" path="res://states/states/climb.tscn" id="8_s1fka"]
+[ext_resource type="PackedScene" uid="uid://dcsjypjeyc0pl" path="res://states/states/attack.tscn" id="9_nw2v6"]
 
 [node name="state_machine" type="Node" node_paths=PackedStringArray("starting_state")]
 script = ExtResource("1_uxmty")
 starting_state = NodePath("idle")
-
-[node name="BaseState" parent="." instance=ExtResource("1_xjqm6")]
 
 [node name="dash" parent="." node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "fall_state") instance=ExtResource("6_m0mjy")]
 idle_state = NodePath("../idle")
@@ -30,20 +29,22 @@ dash_state = NodePath("../dash")
 climb_state = NodePath("../climb")
 animation_name = "fall"
 
-[node name="idle" parent="." node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state", "climb_state") instance=ExtResource("2_dy5fw")]
+[node name="idle" parent="." node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state", "climb_state", "attack_state") instance=ExtResource("2_dy5fw")]
 fall_state = NodePath("../fall")
 move_state = NodePath("../move")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
 climb_state = NodePath("../climb")
+attack_state = NodePath("../attack")
 animation_name = "idle"
 
-[node name="move" parent="." node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state", "climb_state") instance=ExtResource("3_v6g1h")]
+[node name="move" parent="." node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state", "climb_state", "attack_state") instance=ExtResource("3_v6g1h")]
 fall_state = NodePath("../fall")
 idle_state = NodePath("../idle")
 jump_state = NodePath("../jump")
 dash_state = NodePath("../dash")
 climb_state = NodePath("../climb")
+attack_state = NodePath("../attack")
 animation_name = "move"
 
 [node name="jump" parent="." node_paths=PackedStringArray("fall_state", "move_state", "idle_state", "dash_state", "climb_state") instance=ExtResource("5_d2u75")]
@@ -60,3 +61,9 @@ jump_state = NodePath("../jump")
 fall_state = NodePath("../fall")
 idle_state = NodePath("../idle")
 animation_name = "climb"
+
+[node name="base_state" parent="." instance=ExtResource("1_xjqm6")]
+
+[node name="attack" parent="." node_paths=PackedStringArray("idle_state") instance=ExtResource("9_nw2v6")]
+idle_state = NodePath("../idle")
+animation_name = "attack"

@@ -68,7 +68,6 @@ func get_jump(pre_buffered: bool=false) -> bool:
 	char_wants_jump = true if pre_buffered else wants_jump()
 	
 	if mediator.request("is_currently_on_ladder"):
-		print("get jump on ladder")
 		if mediator.request("can_jump_while_climbing"):
 			return char_wants_jump
 		return false
@@ -148,7 +147,6 @@ func can_coyote_jump() -> bool:
 	return _can_coyote_jump
 
 func start_coyote_time() -> void:
-	print("coyote time started")
 	if can_coyote_jump() and not _has_timer("coyote_timer"):
 		var coyote_timer := Timer.new()
 		coyote_timer.one_shot = true
@@ -169,7 +167,6 @@ func is_in_coyote_time() -> bool:
 	return false
 
 func _on_coyote_timer_timeout(timer: Timer) -> void:
-	print("coyote time ended")
 	timer.queue_free()
 
 func _has_timer(timer_name: String) -> bool:

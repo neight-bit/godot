@@ -23,13 +23,13 @@ var air_control: float = 800
 
 func _ready():
 	actions = [
-		["get_movement_direction",	self, {}],
-		["get_actor_acceleration",	self, {}],
-		["get_actor_deceleration",	self, {}],
-		['get_airborne_velocity',	self, {'delta': 0, "initial_horizontal_velocity": 0}],
-		["get_grounded_velocity",	self, {'delta': 0}],
-		["get_gravity",				self, {}],
-		["get_max_speed",			self, {}],
+		["get_movement_direction",				self, {}],
+		["get_actor_acceleration",				self, {}],
+		["get_actor_deceleration",				self, {}],
+		['get_airborne_velocity',				self, {'delta': 0, "initial_horizontal_velocity": 0}],
+		["get_grounded_velocity",				self, {'delta': 0}],
+		["get_gravity",							self, {}],
+		["get_max_speed",						self, {}],
 	]
 
 func get_max_speed() -> float:
