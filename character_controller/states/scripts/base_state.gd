@@ -3,16 +3,17 @@ extends Node
 
 @export
 var animation_name: String
-
+var animation_player: AnimationPlayer
 var actor: CharacterBody2D
-var animations: AnimatedSprite2D
 var mediator: Mediator
 var required_components: Array[String]
 var optional_components: Array[String]
 
 func enter() -> void:
-	if animation_name and animations:
-		animations.play(animation_name)
+	if not animation_name:
+		animation_name = self.name
+	if animation_name and animation_player:
+		animation_player.play(animation_name)
 
 func exit() -> void:
 	pass

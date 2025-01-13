@@ -1,6 +1,7 @@
 extends Component
 
 func _ready():
+	print("initializing attack component")
 	actions = [
 		["get_attack",				self, {}],
 	]

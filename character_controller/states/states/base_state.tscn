@@ -4,3 +4,4 @@
 
 [node name="base_state" type="Node"]
 script = ExtResource("1_ydr7x")
+animation_name = "idle"

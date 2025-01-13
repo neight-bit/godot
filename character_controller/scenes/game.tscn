@@ -1,20 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://dwi8nw2iu81xt"]
+[gd_scene load_steps=6 format=3 uid="uid://dwi8nw2iu81xt"]
 
 [ext_resource type="PackedScene" uid="uid://f2o7mlu8m06j" path="res://scenes/player.tscn" id="1_cc2nb"]
 [ext_resource type="Texture2D" uid="uid://qmr5e8w0jwun" path="res://icon.svg" id="2_lf3c8"]
-[ext_resource type="Script" path="res://scripts/hud.gd" id="2_p7vg0"]
-[ext_resource type="Script" path="res://scripts/speed_label.gd" id="3_ntylc"]
-[ext_resource type="Script" path="res://scenes/state_label.gd" id="4_1f5ku"]
 [ext_resource type="PackedScene" uid="uid://dmu6idgk1s0pb" path="res://assets/platform.tscn" id="6_ml61j"]
 [ext_resource type="PackedScene" uid="uid://ddnaqyy05oyru" path="res://assets/ladder.tscn" id="7_nc1xx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3p02b"]
-
-[sub_resource type="LabelSettings" id="LabelSettings_6eg38"]
-font_size = 12
-
-[sub_resource type="LabelSettings" id="LabelSettings_votku"]
-font_size = 12
 
 [node name="game" type="Node2D"]
 
@@ -30,40 +21,6 @@ shape = SubResource("RectangleShape2D_3p02b")
 position = Vector2(3, -3.8147e-06)
 scale = Vector2(15.6094, 0.796875)
 texture = ExtResource("2_lf3c8")
-
-[node name="hud" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_left = -6.0
-offset_top = 193.0
-offset_right = 34.0
-offset_bottom = 233.0
-script = ExtResource("2_p7vg0")
-
-[node name="speed_label" type="Label" parent="hud"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = -1.125
-anchor_top = -1.55
-anchor_right = -1.125
-anchor_bottom = -1.55
-offset_left = 63.0
-offset_top = -133.0
-offset_right = 139.0
-offset_bottom = -99.0
-text = "speed:"
-label_settings = SubResource("LabelSettings_6eg38")
-script = ExtResource("3_ntylc")
-metadata/_edit_use_anchors_ = true
-
-[node name="state_label" type="Label" parent="hud"]
-layout_mode = 0
-offset_left = 19.0
-offset_top = -172.0
-offset_right = 59.0
-offset_bottom = -149.0
-label_settings = SubResource("LabelSettings_votku")
-script = ExtResource("4_1f5ku")
 
 [node name="Platform" parent="." instance=ExtResource("6_ml61j")]
 position = Vector2(-112, 240)

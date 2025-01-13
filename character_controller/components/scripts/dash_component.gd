@@ -19,6 +19,7 @@ var _can_jump_while_dashing: bool = true
 var _can_jump_while_air_dashing: bool = true
 
 func _ready():
+	print("initializing dash component")
 	actions = [
 		["wants_dash", 					self, {}],
 		["get_dash",					self, {}],

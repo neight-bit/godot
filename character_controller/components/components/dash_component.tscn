@@ -4,3 +4,10 @@
 
 [node name="dash_component" type="Node"]
 script = ExtResource("1_6q3eh")
+dash_time = null
+dash_cooldown_time = null
+_can_dash = null
+_can_air_dash = null
+_can_jump_while_dashing = null
+_can_jump_while_air_dashing = null
+enabled = null

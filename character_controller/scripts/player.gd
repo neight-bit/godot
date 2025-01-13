@@ -2,23 +2,20 @@ class_name Player
 extends CharacterBody2D
 
 @onready
-var animations = $animations
+var mediator: Mediator = $mediator
 
 @onready
 var state_machine = $state_machine
 
 @onready
-var component_manager = $component_manager
-
-@onready
-var mediator = $mediator
+var component_manager: ComponentManager = $component_manager
 
 func _ready() -> void:
 	print("initializing player")
 	component_manager.init(self, mediator)
-	state_machine.init(self, mediator, animations)
-	mediator.init(self, component_manager, state_machine)
-	Utils.get_layer_by_name("ladders", "2d_physics")
+	mediator.init(self, state_machine, component_manager )
+	state_machine.init(self, mediator)
+	print("player initialized")
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.process_input(event)

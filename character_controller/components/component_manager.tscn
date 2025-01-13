@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dfega4rxiaor"]
+[gd_scene load_steps=10 format=3 uid="uid://dfega4rxiaor"]
 
 [ext_resource type="Script" path="res://components/component_manager.gd" id="1_ctjpf"]
 [ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/components/base_component.tscn" id="2_3ieae"]
@@ -8,13 +8,21 @@
 [ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/components/null_component.tscn" id="6_l3kat"]
 [ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/components/climb_component.tscn" id="7_4lbj8"]
 [ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/components/attack_component.tscn" id="8_pm17l"]
+[ext_resource type="PackedScene" uid="uid://bp6b5okt0s1ib" path="res://components/components/renderer_component.tscn" id="9_onun3"]
 
-[node name="component_manager" type="Node"]
+[node name="component_manager" type="Node2D"]
 script = ExtResource("1_ctjpf")
 
 [node name="BaseComponent" parent="." instance=ExtResource("2_3ieae")]
 
 [node name="dash_component" parent="." instance=ExtResource("3_3pakf")]
+dash_time = 0.25
+dash_cooldown_time = 1.0
+_can_dash = true
+_can_air_dash = true
+_can_jump_while_dashing = true
+_can_jump_while_air_dashing = true
+enabled = true
 
 [node name="jump_component" parent="." instance=ExtResource("4_eoreb")]
 
@@ -26,3 +34,5 @@ base_move_speed = 400.0
 [node name="climb_component" parent="." instance=ExtResource("7_4lbj8")]
 
 [node name="attack_component" parent="." instance=ExtResource("8_pm17l")]
+
+[node name="renderer_component" parent="." instance=ExtResource("9_onun3")]

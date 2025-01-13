@@ -10,24 +10,33 @@ var state_machine: StateMachine
 @export
 var actor: Node2D
 
-var actions := {
-	# [action_name, object_ref, [args]]
-}
+var registry := {}
 
-func init(actor_obj, component_manager_obj, state_machine_obj) -> void:
+var targets := []
+
+var actions = [
+]
+
+func init(actor_obj, state_machine_node, component_manager_node) -> void:
 	print("Initializing mediator")
-	actor=actor_obj
-	component_manager=component_manager_obj
-	state_machine=state_machine_obj
+	actor = actor_obj
+	state_machine = state_machine_node
+	component_manager = component_manager_node
+	for action in actions:
+		register_action(action)
+	# var event = MediatorReadyEvent.new(actor, self)
+	# EventBus.service().broadcast(event)
+	print("Mediator initialized")
 
 func register_action(args: Array):
+	""" [action_name, object_ref, [args]] """
 	print("Registering action: " + args[0])
-	if args[0] not in actions:
+	if args[0] not in registry:
 		var action_name:	String		=args[0]
 		var target: 		Object		=args[1]
 		var params:			Dictionary	=args[2]
 
-		actions[action_name] = {
+		registry[action_name] = {
 			"method": action_name,
 			"target": target,
 			"params": params
@@ -35,12 +44,11 @@ func register_action(args: Array):
 
 func unregister_action(action_name: String) -> void:
 	print("unregistering action: " + action_name)
-	actions.erase(action_name)
-
+	registry.erase(action_name)
 
 func request(action_name: String, args: Array = []):
-	if actions.has(action_name):
-		var action = actions[action_name]
+	if registry.has(action_name):
+		var action = registry[action_name]
 		var target = action.target
 		var method_name = action.method
 		if action.params.is_empty():
@@ -50,3 +58,12 @@ func request(action_name: String, args: Array = []):
 	
 	print("Action not recognized:", action_name)
 	return null
+
+class MediatorReadyEvent extends Event:
+	const id := "MEDIATOR_READY"
+	var actor
+	var mediator
+	
+	func _init(actor_node, mediator_node):
+		self.actor = actor_node
+		self.mediator = mediator_node

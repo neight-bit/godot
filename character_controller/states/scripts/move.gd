@@ -38,11 +38,16 @@ func process_physics(delta: float) -> State:
 
 	var move_direction = mediator.request("get_movement_direction")
 	mediator.request("set_orientation", [move_direction])
+
+	if move_direction:
+		actor.velocity.x = mediator.request("get_grounded_velocity", [delta])
+	else:
+		# If the player is no longer holding left/right, apply a choke to velocity
+		actor.velocity.x = mediator.request("get_grounded_velocity", [delta, true])
+	actor.move_and_slide()
+
 	if actor.velocity.x == 0 and move_direction == 0:
 		return idle_state
-
-	actor.velocity.x = mediator.request("get_grounded_velocity", [delta])
-	actor.move_and_slide()
 
 	if !actor.is_on_floor() and not mediator.request("is_dashing"):
 		mediator.request("start_coyote_time")

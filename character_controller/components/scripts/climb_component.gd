@@ -35,6 +35,7 @@ var pass_thru_platform_collsion_mask: int = Utils.get_layer_by_name("pass_thru")
 var ladder_collsion_mask: int = Utils.get_layer_by_name("ladders")
 
 func _ready():
+	print("initializing climb component")
 	EventBus.service().subscribe("BODY_ON_LADDER_DETECTION", self, "_on_body_on_ladder_event")
 	
 	actions = [

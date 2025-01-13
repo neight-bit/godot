@@ -15,12 +15,12 @@ var idle_state: State
 func enter() -> void:
 	actor.velocity.x = 0
 	super()
-	animations.stop()
+	animation_player.stop()
 	mediator.request("start_climbing")
 
 func exit() -> void:
 	super()
-	animations.speed_scale = 1
+	animation_player.speed_scale = 1
 	mediator.request("reset_ladder_pass_thru_collider")
 
 func process_input(_event: InputEvent) -> State:
@@ -43,14 +43,14 @@ func process_physics(delta: float) -> State:
 	if climb_velocity:
 		actor.velocity.y = climb_velocity
 		if climb_velocity > 1:
-			animations.speed_scale = -1
-			animations.play(animation_name)
+			animation_player.speed_scale = -1
+			animation_player.play(animation_name)
 		elif climb_velocity < 0:
-			animations.speed_scale = 1
-			animations.play(animation_name)
+			animation_player.speed_scale = 1
+			animation_player.play(animation_name)
 	else:
-		animations.pause()
-		animations.speed_scale = 1
+		animation_player.pause()
+		animation_player.speed_scale = 1
 	actor.move_and_slide()
 
 	return null
