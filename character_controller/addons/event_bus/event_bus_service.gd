@@ -50,15 +50,15 @@ func broadcast(event: Event) -> void:
 			if not is_instance_valid(subscriber):
 				_remove_invalid_subscription(event_id, existing_subs, existing_sub)
 				continue
-			
+
 			var function = existing_sub.function_name
 			if not subscriber.has_method(function):
 				continue
-				
+
 			# Call the function and pass in the event
 			subscriber.call(function, event)
-		
-			
+
+
 # remove a subscription from an invalid subscriber
 # i.e. one that has been freed
 func _remove_invalid_subscription(event_id, subscription_array: Array, subscription_to_remove: EventSubscription):

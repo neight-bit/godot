@@ -60,8 +60,8 @@ func process_physics(delta: float) -> State:
 			if mediator.request("get_jump", [true]):
 				return jump_state
 		# TODO: This animation doesn't actually play yet because it is overridden by the baste state's enter.animations.play method
-		if animations and "land" in animations.sprite_frames.get_animation_names():
-			animations.play("land")
+		if animation_player and "land" in animation_player.get_animation_list():
+			animation_player.play("land")
 		if movement_direction != 0:
 			return move_state
 		return idle_state

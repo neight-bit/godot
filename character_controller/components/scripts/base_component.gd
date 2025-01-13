@@ -21,8 +21,9 @@ var actor: Node2D
 func _ready():
 	print("initializing base component")
 	actions = [
-		["get_orientation", self, {}],
-		["set_orientation", self, {"value": 1}],
+		["get_orientation", self,	 	{}],
+		["set_orientation", self,		{"value": 1}],
+		["get_component", 	manager,	{"component_name": null}]
 	]
 
 func reset():
@@ -35,12 +36,17 @@ func get_orientation():
 	return orientation
 
 func set_orientation(value: int) -> void:
-	if value < 0:
-		actor.animations.flip_h = true
+	if value != 0:
 		orientation = value
-	if value > 0:
-		actor.animations.flip_h = false
-		orientation = value
-	if value == 0:
-		# don't flip the sprite's direction
-		pass
+		var event = ActorOrientationEvent.new(actor, value)
+		EventBus.service().broadcast(event)
+
+class ActorOrientationEvent extends Event:
+	const id = "ActorOrientationEvent"
+	var actor
+	var orientation: int
+
+	func _init(actor_node, orientation_value: int) -> void:
+		super(id)
+		self.actor = actor_node
+		self.orientation = orientation_value

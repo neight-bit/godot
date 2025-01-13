@@ -12,16 +12,14 @@ var base_move_speed: float = 300
 var max_speed: float = 400
 
 @export
-var acceleration: float
-
-@export
-var deceleration_factor: float = 3
+var deceleration_factor: float = 4
 
 @export
 var air_control: float = 800
 
 
 func _ready():
+	print("initializing move component")
 	actions = [
 		["get_movement_direction",				self, {}],
 		["get_actor_acceleration",				self, {}],
@@ -80,14 +78,21 @@ func get_airborne_velocity(delta: float, initial_horizontal_velocity: float) -> 
 	)
 	return clamped_velocity
 
-func get_grounded_velocity(delta: float):
-	"""Velocity can be determined via upstream properties to either be a flat value, or use accleration"""
-	var velocity: float
-	var move_direction: float = get_movement_direction()
+func get_grounded_velocity(delta: float, kill_input: bool=false):
+	"""Velocity can be determined via upstream properties to either be a flat value, or use accleration.
+	kill_input: allows the player to gracefully delerate from a moving velocty instead of instantly stopping.
+	"""
+	var velocity: 		float
+	var move_direction:	float
+	var acceleration: 	float = get_actor_acceleration()
+	var deceleration:	float = get_actor_deceleration()
+
+	if kill_input:
+		move_direction = 0
+	else:
+		move_direction = get_movement_direction()
 
 	if has_acceleration:
-		acceleration = get_actor_acceleration()
-		var deceleration = get_actor_deceleration()
 		velocity = move_toward(
 			actor.velocity.x, 
 			move_direction * max_speed, 

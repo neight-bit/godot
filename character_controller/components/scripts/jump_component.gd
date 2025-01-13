@@ -26,14 +26,12 @@ var coyote_time_length: float = .15
 
 var remaining_jumps: int
 
-
-
-
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 @onready var jump_gravity: float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 @onready var fall_gravity: float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
 func _ready():
+	print("initializing jump component")
 	actions = [
 		["wants_jump", 					self, {}],
 		["get_jump",					self, {"pre_buffered": false}],

@@ -16,45 +16,40 @@ var COMPONENTS_PATH := "res://components/scripts/"
 @export
 var null_component_script = preload("res://components/scripts/null_component.gd")
 
-
-func init(actor_node: Node2D, mediator_obj: Mediator) -> void:
-	print("initializing component manager")
+var actions = []
+func init(actor_node: Node2D, mediator_node: Mediator) -> void:
+	print("Initializing component manager")
 	actor = actor_node
-	mediator = mediator_obj
+	mediator = mediator_node
 	_audit_registration()
+	print("Component manager initialized")
 
-func get_optional_component(component_name: String) -> Component:
-	var component: Component
-	if components.has(component_name):
-		component = components[component_name]
-	else:
-		component = null_component_script.new() as Component
-	return component
 
-func get_component(component_name: String, force_on: bool=false, force_off: bool=false) -> Component:
+func get_component(component_name: String) -> Component:
+	print("getting component: " + component_name)
 	if not components.has(component_name):
 		_load_component(component_name)
 	var component: Component = components[component_name]
-	if force_on:
-		component.enabled = true
-	if force_off:
-		component.enabled = false
 	return component
 
+
 func _load_component(component_name: String) -> void:
-	print("registering component: " + component_name)
+	print("loading component: " + component_name)
 	var component_script_name: String = _normalize_component_path(component_name)
 	var script = load(component_script_name)
 	var component = script.new() as Component
 	component.name=component_name
 	add_child(component)
 
+
 func _audit_registration() -> void:
+	print("Auditing component registration.")
+	
 	var children = get_children()
 	# Register any new children
 	for child in children:
-		if child not in components:
-			_register_component(child)
+		_register_component(child)
+	
 	# Clean up dangling references in the registry
 	for component_name in components:
 		var component = components[component_name]
@@ -64,19 +59,24 @@ func _audit_registration() -> void:
 			# TODO: learn how to actually handle object clean-up
 			if is_instance_valid(component):
 				_unregister_component(component)
+	
+	print("Finished auditing component registration.")
 
-func _register_component(component: Component, force_on: bool=false, force_off: bool=false) -> void:
-	if not components.has(component):
+
+func _register_component(component: Component) -> void:
+	print("registering component: " + component.name)
+	if not components.has(component.name):
 		components[component.name] = component
-		component.manager = self
-		component.actor = actor
+	if !component.mediator:
 		component.mediator = mediator
-		for action in component.actions:
-			mediator.register_action(action)
-		if force_on:
-			component.enabled = true
-		if force_off:
-			component.enabled = false
+	if !component.manager:
+		component.manager = self
+	if !component.actor:
+		component.actor = actor
+	for action in component.actions:
+		mediator.register_action(action)
+	print("Finished registering component: " + str(component))
+
 
 func _unregister_component(component: Component):
 	print("unregistering component: " + str(component.name))
@@ -84,6 +84,8 @@ func _unregister_component(component: Component):
 		mediator.unregister_action(action[0])
 	components.erase(component)
 	component.clean_up()
+	print("Finished unregistering component: " + str(component.name))
+
 
 func _normalize_component_path(component_name: String) -> String:
 	if ! component_name.begins_with(COMPONENTS_PATH):
@@ -92,6 +94,8 @@ func _normalize_component_path(component_name: String) -> String:
 		component_name = component_name + ".gd"
 	return component_name
 
+
 func _notification(what) -> void:
 	if what == NOTIFICATION_CHILD_ORDER_CHANGED:
+		print("order changed")
 		_audit_registration()
