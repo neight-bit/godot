@@ -14,7 +14,7 @@ var components: Dictionary = {}
 var COMPONENTS_PATH := "res://components/scripts/"
 
 @export
-var null_component_script = preload("res://components/scripts/null_component.gd")
+var null_component_script = preload("res://components/component_scripts/null_component.gd")
 
 var actions = []
 func init(actor_node: Node2D, mediator_node: Mediator) -> void:

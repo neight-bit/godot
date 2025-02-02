@@ -1,19 +1,22 @@
-[gd_scene load_steps=10 format=3 uid="uid://dfega4rxiaor"]
+[gd_scene load_steps=11 format=3 uid="uid://dfega4rxiaor"]
 
 [ext_resource type="Script" path="res://components/component_manager.gd" id="1_ctjpf"]
-[ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/components/base_component.tscn" id="2_3ieae"]
-[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/components/dash_component.tscn" id="3_3pakf"]
-[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/components/jump_component.tscn" id="4_eoreb"]
-[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/components/move_component.tscn" id="5_fwycx"]
-[ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/components/null_component.tscn" id="6_l3kat"]
-[ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/components/climb_component.tscn" id="7_4lbj8"]
-[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/components/attack_component.tscn" id="8_pm17l"]
-[ext_resource type="PackedScene" uid="uid://bp6b5okt0s1ib" path="res://components/components/renderer_component.tscn" id="9_onun3"]
+[ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/component_scenes/base_component.tscn" id="2_3ieae"]
+[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/component_scenes/dash_component.tscn" id="3_3pakf"]
+[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/component_scenes/jump_component.tscn" id="4_eoreb"]
+[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/component_scenes/move_component.tscn" id="5_fwycx"]
+[ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/component_scenes/null_component.tscn" id="6_l3kat"]
+[ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/component_scenes/climb_component.tscn" id="7_4lbj8"]
+[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/component_scenes/attack_component.tscn" id="8_pm17l"]
+[ext_resource type="PackedScene" uid="uid://bp6b5okt0s1ib" path="res://components/component_scenes/renderer_component.tscn" id="9_onun3"]
+[ext_resource type="PackedScene" uid="uid://b32p1jf1lg0v" path="res://components/component_scenes/hurtbox_component.tscn" id="10_p6bjr"]
 
 [node name="component_manager" type="Node2D"]
 script = ExtResource("1_ctjpf")
 
 [node name="BaseComponent" parent="." instance=ExtResource("2_3ieae")]
+
+[node name="renderer_component" parent="." instance=ExtResource("9_onun3")]
 
 [node name="dash_component" parent="." instance=ExtResource("3_3pakf")]
 dash_time = 0.25
@@ -35,4 +38,4 @@ base_move_speed = 400.0
 
 [node name="attack_component" parent="." instance=ExtResource("8_pm17l")]
 
-[node name="renderer_component" parent="." instance=ExtResource("9_onun3")]
+[node name="hurtbox_component" parent="." instance=ExtResource("10_p6bjr")]

@@ -20,10 +20,12 @@ var fall_state: State
 
 func enter():
 	super()
+	mediator.request("start_attack", ["grounded_attack"])
 
 func process_input(event: InputEvent) -> State:
 	if animation_player.is_playing():
-		return null
+		if not mediator.request("can_cancel_attack"):
+			return null
 	if mediator.request("get_jump") and actor.is_on_floor():
 		return jump_state
 	if mediator.request("get_dash"):

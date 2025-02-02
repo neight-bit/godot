@@ -22,10 +22,10 @@ Utils="*res://scripts/utils.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
-window/stretch/scale=3.0
+window/stretch/scale=2.0
 window/stretch/scale_mode="integer"
 
 [editor_plugins]
@@ -87,7 +87,10 @@ attack={
 2d_physics/layer_2="ground"
 2d_physics/layer_3="pass_thru"
 2d_physics/layer_4="ladders"
+2d_physics/layer_5="entities"
 2d_physics/stretch/scale=3.0
+2d_physics/size/viewport_height=1080
+2d_physics/size/viewport_width=1920
 
 [rendering]
 
