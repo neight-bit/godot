@@ -1,4 +1,4 @@
-extends State
+extends Airborne
 
 @export
 var idle_state: State
@@ -15,26 +15,22 @@ var dash_state: State
 @export
 var climb_state: State
 
-var initial_horizontal_velocity: float
-
 var jump_buffered: bool
-
 
 func enter() -> void:
 	super()
-	initial_horizontal_velocity = actor.velocity.x
 	jump_buffered = false
 
 func process_input(_event: InputEvent) -> State:
+	if mediator.request("get_attack"):
+		return airborne_attack_state
 	if mediator.request("get_dash"):
 		return dash_state
-
 	if mediator.request("get_climb"):
 		return climb_state
-
 	if mediator.request("wants_jump"):
-		# First see if we can use jump buffer
-		# This is so that an early jump button press is not accidentally interpreted
+		# First see if the actor is elegible to use jump buffer.
+		# This is also so that an early jump button press is not accidentally interpreted
 		# as an attempt to double-jump
 		if mediator.request("can_buffer_jump"):
 			jump_buffered = true
@@ -46,11 +42,7 @@ func process_input(_event: InputEvent) -> State:
 	return null
 
 func process_physics(delta: float) -> State:
-	actor.velocity.y += mediator.request("get_gravity") * delta
-	var movement_direction = mediator.request("get_movement_direction")
-	mediator.request("set_orientation", [movement_direction])
-	actor.velocity.x = mediator.request("get_airborne_velocity", [delta, initial_horizontal_velocity])
-	actor.move_and_slide()
+	super(delta) # process regular airborn directional movement
 
 	if actor.is_on_floor():
 		if jump_buffered:
@@ -62,6 +54,7 @@ func process_physics(delta: float) -> State:
 		# TODO: This animation doesn't actually play yet because it is overridden by the baste state's enter.animations.play method
 		if animation_player and "land" in animation_player.get_animation_list():
 			animation_player.play("land")
+		var movement_direction = mediator.request("get_movement_direction")
 		if movement_direction != 0:
 			return move_state
 		return idle_state

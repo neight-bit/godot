@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://d02bv2ks0n1bm"]
+
+[ext_resource type="Script" path="res://states/scripts/airborne_attack.gd" id="1_n72pq"]
+
+[node name="airborne_attack" type="Node"]
+script = ExtResource("1_n72pq")
