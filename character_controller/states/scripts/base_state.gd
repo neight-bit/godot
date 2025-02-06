@@ -6,8 +6,10 @@ var animation_name: String
 var animation_player: AnimationPlayer
 var actor: CharacterBody2D
 var mediator: Mediator
-var required_components: Array[String]
-var optional_components: Array[String]
+var state_machine: StateMachine
+
+func get_state(state_name):
+	return state_machine.get_state(state_name)
 
 func enter() -> void:
 	if not animation_name:

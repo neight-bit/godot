@@ -26,14 +26,18 @@ var coyote_time_length: float = .15
 
 var remaining_jumps: int = 1
 
+var wants_jump: bool = false
+
 @onready var jump_velocity : float = ((2.0 * jump_height) / jump_time_to_peak) * -1.0
 @onready var jump_gravity: float = ((-2.0 * jump_height) / (jump_time_to_peak * jump_time_to_peak)) * -1.0
 @onready var fall_gravity: float = ((-2.0 * jump_height) / (jump_time_to_descent * jump_time_to_descent)) * -1.0
 
+
 func _ready():
 	print("initializing jump component")
 	actions = [
-		["wants_jump", 					self, {}],
+		["get_wants_jump", 				self, {}],
+		["set_wants_jump", 				self, {"value": false}],
 		["get_jump",					self, {"pre_buffered": false}],
 		["reset_jumps",					self, {}],
 		['set_max_jumps',				self, {'num_max_jumps': 1}],
@@ -48,14 +52,27 @@ func _ready():
 		['can_buffer_jump',				self, {}],
 	]
 
+
 func get_gravity() -> float:
 	return jump_gravity if actor.velocity.y < 0.0 else fall_gravity
+
 
 func get_jump_velocity():
 	return jump_velocity
 
-func wants_jump() -> bool:
-	return Input.is_action_just_pressed('jump')
+
+func get_wants_jump() -> bool:
+	"wants_jump differs from get_jump in that it describes whether an actor is trying to jump, 
+	NOT whether it is currently able to jump.  For example:
+		* A player presses the jump button
+		* An NPC's AI controller wants to jump
+	You can't always get what you want... for example, the player is already in the air and can't double jump"
+	return wants_jump
+
+
+func set_wants_jump(value: bool) -> void:
+	wants_jump = value
+
 
 func get_jump(pre_buffered: bool=false) -> bool:
 	"""The pre_buffered argument overrides forces wants_jump to true.
@@ -63,7 +80,7 @@ func get_jump(pre_buffered: bool=false) -> bool:
 	frames before get_jump is called.  By then the jump input not likely active anymore"""
 
 	var char_wants_jump: bool
-	char_wants_jump = true if pre_buffered else wants_jump()
+	char_wants_jump = true if pre_buffered else get_wants_jump()
 	
 	if mediator.request("is_currently_on_ladder"):
 		if mediator.request("can_jump_while_climbing"):
@@ -96,9 +113,11 @@ func get_jump(pre_buffered: bool=false) -> bool:
 			return char_wants_jump
 		return false
 
+
 func reset_jumps() -> void:
 	if actor.is_on_floor():
 		remaining_jumps = max_jumps
+
 
 func set_max_jumps(num_max_jumps: int) -> void:
 	if num_max_jumps > 0:
@@ -106,12 +125,15 @@ func set_max_jumps(num_max_jumps: int) -> void:
 	else:
 		max_jumps = num_max_jumps
 
+
 func get_remaining_jumps() -> int:
 	return remaining_jumps
+
 
 func decrement_remaining_jumps(qty: int) -> void:
 	if remaining_jumps > 0:
 		remaining_jumps -= qty
+
 
 func can_buffer_jump() -> bool:
 	var ground_nearby = false
@@ -141,8 +163,10 @@ func can_buffer_jump() -> bool:
 
 	return ground_nearby
 
+
 func can_coyote_jump() -> bool:
 	return _can_coyote_jump
+
 
 func start_coyote_time() -> void:
 	if can_coyote_jump() and not _has_timer("coyote_timer"):
@@ -154,24 +178,29 @@ func start_coyote_time() -> void:
 		add_child(coyote_timer)
 		coyote_timer.start()
 
+
 func stop_coyote_time() -> void:
 	if _has_timer("coyote_timer"):
 		var timer = _get_timer("coyote_timer")
 		_on_coyote_timer_timeout(timer)
+
 
 func is_in_coyote_time() -> bool:
 	if _has_timer("coyote_timer"):
 		return true
 	return false
 
+
 func _on_coyote_timer_timeout(timer: Timer) -> void:
 	timer.queue_free()
+
 
 func _has_timer(timer_name: String) -> bool:
 	for child in get_children():
 		if child.name == timer_name:
 			return true
 	return false
+
 
 func _get_timer(timer_name: String) -> Timer:
 	for child in get_children():

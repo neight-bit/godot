@@ -17,11 +17,13 @@ var deceleration_factor: float = 4
 @export
 var air_control: float = 800
 
+var movement_direction: float = 0
 
 func _ready():
 	print("initializing move component")
 	actions = [
 		["get_movement_direction",				self, {}],
+		["set_movement_direction",				self, {'value': 0}],
 		["get_actor_acceleration",				self, {}],
 		["get_actor_deceleration",				self, {}],
 		['get_airborne_velocity',				self, {'delta': 0, "initial_horizontal_velocity": 0}],
@@ -33,8 +35,11 @@ func _ready():
 func get_max_speed() -> float:
 	return max_speed
 
+func set_movement_direction(value: float) -> void:
+	movement_direction = value
+
 func get_movement_direction() -> float:
-	return Input.get_axis('move_left', 'move_right')
+	return movement_direction
 
 func get_actor_acceleration() -> float:
 	if has_acceleration:

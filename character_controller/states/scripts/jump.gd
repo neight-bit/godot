@@ -30,7 +30,6 @@ func process_input(_event: InputEvent) -> State:
 
 func process_physics(delta: float) -> State:
 	super(delta)  # process regular airborn directional movement
-	print(actor.velocity.y)
 	if actor.velocity.y >= 0:
 		return fall_state
 	return null

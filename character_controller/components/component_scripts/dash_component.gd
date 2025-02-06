@@ -18,10 +18,13 @@ var _can_jump_while_dashing: bool = true
 @export
 var _can_jump_while_air_dashing: bool = true
 
+var wants_dash: bool = false
+
 func _ready():
 	print("initializing dash component")
 	actions = [
-		["wants_dash", 					self, {}],
+		["get_wants_dash", 				self, {}],
+		["set_wants_dash", 				self, {"value": false}],
 		["get_dash",					self, {}],
 		["get_dash_velocity",			self, {}],
 		['start_dashing',				self, {}],
@@ -36,13 +39,16 @@ func _ready():
 		['can_jump_while_air_dashing',	self, {}],
 	]
 
-func wants_dash() -> bool:
-	return Input.is_action_just_pressed('dash')
+func get_wants_dash() -> bool:
+	return wants_dash
+	
+func set_wants_dash(value: bool) -> void:
+	wants_dash = value
 
 func get_dash() -> bool:
 	if _has_timer("DashCooldownTimer"):
 		return false
-	if wants_dash():
+	if wants_dash:
 		if not _can_dash:
 			return false
 		if not actor.is_on_floor():
@@ -69,7 +75,6 @@ func _get_dash_timer(timer_name: String):
 	return timer
 
 func _on_dash_timer_timeout(timer: Timer) -> void:
-	print("Timer ended: " + timer.name)
 	timer.queue_free()
 
 func start_dashing() -> void:

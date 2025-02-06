@@ -7,7 +7,7 @@ custom_solver_bias = 1.0
 radius = 12.0
 height = 51.82
 
-[node name="hurtbox_component" type="Node"]
+[node name="hurtbox_component" type="Node2D"]
 script = ExtResource("1_0stlu")
 
 [node name="hurtbox_area" type="Area2D" parent="."]

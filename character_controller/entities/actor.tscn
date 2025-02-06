@@ -1,16 +1,138 @@
-[gd_scene load_steps=3 format=3 uid="uid://cd71i85d5rkfc"]
+[gd_scene load_steps=25 format=3 uid="uid://f2o7mlu8m06j"]
 
-[ext_resource type="Script" path="res://entities/actor.gd" id="1_ygeqh"]
+[ext_resource type="Script" path="res://entities/actor.gd" id="1_viy72"]
+[ext_resource type="PackedScene" uid="uid://jlo3cy0u2kuq" path="res://states/state_machine.tscn" id="7_g5vrn"]
+[ext_resource type="PackedScene" uid="uid://d02bv2ks0n1bm" path="res://states/states/airborne_attack.tscn" id="13_i16ye"]
+[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/component_scenes/attack_component.tscn" id="13_qb81i"]
+[ext_resource type="PackedScene" uid="uid://bg3smcilqln5q" path="res://scenes/mediator.tscn" id="13_u51o7"]
+[ext_resource type="PackedScene" uid="uid://dcsjypjeyc0pl" path="res://states/states/attack.tscn" id="14_5ut45"]
+[ext_resource type="PackedScene" uid="uid://dloj4ukakua6m" path="res://components/component_scenes/input_component.tscn" id="14_ggcf8"]
+[ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/component_scenes/base_component.tscn" id="14_tegxw"]
+[ext_resource type="PackedScene" uid="uid://wv3of801cnel" path="res://states/states/base_state.tscn" id="15_tjdj2"]
+[ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/component_scenes/climb_component.tscn" id="15_wiw2h"]
+[ext_resource type="PackedScene" uid="uid://b1vsy2cykpjfj" path="res://states/states/climb.tscn" id="16_jkr6y"]
+[ext_resource type="PackedScene" uid="uid://dfega4rxiaor" path="res://scenes/component_manager.tscn" id="16_kkskd"]
+[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/component_scenes/dash_component.tscn" id="16_ubf6d"]
+[ext_resource type="PackedScene" uid="uid://b32p1jf1lg0v" path="res://components/component_scenes/hurtbox_component.tscn" id="17_3f3xe"]
+[ext_resource type="PackedScene" uid="uid://cbtl3lhf8jhb4" path="res://states/states/dash.tscn" id="17_5ybow"]
+[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/component_scenes/jump_component.tscn" id="18_16bag"]
+[ext_resource type="PackedScene" uid="uid://l6ft28uu5324" path="res://states/states/fall.tscn" id="18_tv8ma"]
+[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/component_scenes/move_component.tscn" id="19_1ivan"]
+[ext_resource type="PackedScene" uid="uid://3v3pptw4ot4f" path="res://states/states/idle.tscn" id="19_px25o"]
+[ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/component_scenes/null_component.tscn" id="20_fws0m"]
+[ext_resource type="PackedScene" uid="uid://krts8c2ri2pq" path="res://states/states/jump.tscn" id="20_v42fl"]
+[ext_resource type="PackedScene" uid="uid://bp6b5okt0s1ib" path="res://components/component_scenes/renderer_component.tscn" id="21_1vs8a"]
+[ext_resource type="PackedScene" uid="uid://lqoxs6chahe6" path="res://states/states/move.tscn" id="21_8s5vt"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bkqik"]
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_tw8kx"]
 custom_solver_bias = 1.0
 radius = 12.0
 height = 51.82
 
-[node name="Actor" type="CharacterBody2D"]
-collision_layer = 16
-collision_mask = 15
-script = ExtResource("1_ygeqh")
+[node name="actor" type="CharacterBody2D"]
+collision_mask = 30
+script = ExtResource("1_viy72")
+actor_name = "base_actor"
+starting_state = "idle"
 
 [node name="collider" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_bkqik")
+shape = SubResource("CapsuleShape2D_tw8kx")
+
+[node name="mediator" parent="." node_paths=PackedStringArray("component_manager", "state_machine", "actor") instance=ExtResource("13_u51o7")]
+component_manager = NodePath("../component_manager")
+state_machine = NodePath("../state_machine")
+actor = NodePath("..")
+
+[node name="state_machine" parent="." instance=ExtResource("7_g5vrn")]
+
+[node name="component_manager" parent="." instance=ExtResource("16_kkskd")]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position_smoothing_speed = 10.0
+
+[node name="components" type="Node2D" parent="."]
+
+[node name="attack_component" parent="components" instance=ExtResource("13_qb81i")]
+
+[node name="BaseComponent" parent="components" instance=ExtResource("14_tegxw")]
+
+[node name="climb_component" parent="components" instance=ExtResource("15_wiw2h")]
+
+[node name="dash_component" parent="components" instance=ExtResource("16_ubf6d")]
+dash_time = 0.25
+dash_cooldown_time = 1.0
+_can_dash = true
+_can_air_dash = true
+_can_jump_while_dashing = true
+_can_jump_while_air_dashing = true
+enabled = true
+
+[node name="hurtbox_component" parent="components" instance=ExtResource("17_3f3xe")]
+visible = false
+
+[node name="jump_component" parent="components" instance=ExtResource("18_16bag")]
+
+[node name="move_component" parent="components" instance=ExtResource("19_1ivan")]
+
+[node name="null_component" parent="components" instance=ExtResource("20_fws0m")]
+
+[node name="renderer_component" parent="components" instance=ExtResource("21_1vs8a")]
+
+[node name="input_component" parent="components" instance=ExtResource("14_ggcf8")]
+
+[node name="states" type="Node" parent="."]
+
+[node name="airborne_attack" parent="states" node_paths=PackedStringArray("move_state", "idle_state", "fall_state", "airborne_attack_state") instance=ExtResource("13_i16ye")]
+move_state = NodePath("../move")
+idle_state = NodePath("../idle")
+fall_state = NodePath("../fall")
+airborne_attack_state = NodePath(".")
+
+[node name="attack" parent="states" instance=ExtResource("14_5ut45")]
+
+[node name="base_state" parent="states" instance=ExtResource("15_tjdj2")]
+
+[node name="climb" parent="states" node_paths=PackedStringArray("move_state", "jump_state", "fall_state", "idle_state") instance=ExtResource("16_jkr6y")]
+move_state = NodePath("../move")
+jump_state = NodePath("../jump")
+fall_state = NodePath("../fall")
+idle_state = NodePath("../idle")
+
+[node name="dash" parent="states" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "fall_state") instance=ExtResource("17_5ybow")]
+idle_state = NodePath("../idle")
+move_state = NodePath("../move")
+jump_state = NodePath("../jump")
+fall_state = NodePath("../fall")
+
+[node name="fall" parent="states" node_paths=PackedStringArray("idle_state", "move_state", "jump_state", "dash_state", "climb_state", "fall_state", "airborne_attack_state") instance=ExtResource("18_tv8ma")]
+idle_state = NodePath("../idle")
+move_state = NodePath("../move")
+jump_state = NodePath("../jump")
+dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
+fall_state = NodePath(".")
+airborne_attack_state = NodePath("../airborne_attack")
+
+[node name="idle" parent="states" node_paths=PackedStringArray("fall_state", "move_state", "jump_state", "dash_state", "climb_state", "attack_state") instance=ExtResource("19_px25o")]
+fall_state = NodePath("../fall")
+move_state = NodePath("../move")
+jump_state = NodePath("../jump")
+dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
+attack_state = NodePath("../attack")
+
+[node name="jump" parent="states" node_paths=PackedStringArray("move_state", "idle_state", "dash_state", "climb_state", "fall_state", "airborne_attack_state") instance=ExtResource("20_v42fl")]
+move_state = NodePath("../move")
+idle_state = NodePath("../idle")
+dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
+fall_state = NodePath("../fall")
+airborne_attack_state = NodePath("../airborne_attack")
+
+[node name="move" parent="states" node_paths=PackedStringArray("fall_state", "idle_state", "jump_state", "dash_state", "climb_state", "attack_state") instance=ExtResource("21_8s5vt")]
+fall_state = NodePath("../fall")
+idle_state = NodePath("../idle")
+jump_state = NodePath("../jump")
+dash_state = NodePath("../dash")
+climb_state = NodePath("../climb")
+attack_state = NodePath("../attack")

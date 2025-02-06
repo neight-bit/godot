@@ -17,6 +17,8 @@ var COMPONENTS_PATH := "res://components/scripts/"
 var null_component_script = preload("res://components/component_scripts/null_component.gd")
 
 var actions = []
+
+
 func init(actor_node: Node2D, mediator_node: Mediator) -> void:
 	print("Initializing component manager")
 	actor = actor_node
@@ -25,35 +27,18 @@ func init(actor_node: Node2D, mediator_node: Mediator) -> void:
 	print("Component manager initialized")
 
 
-func get_component(component_name: String) -> Component:
-	print("getting component: " + component_name)
-	if not components.has(component_name):
-		_load_component(component_name)
-	var component: Component = components[component_name]
-	return component
-
-
-func _load_component(component_name: String) -> void:
-	print("loading component: " + component_name)
-	var component_script_name: String = _normalize_component_path(component_name)
-	var script = load(component_script_name)
-	var component = script.new() as Component
-	component.name=component_name
-	add_child(component)
-
-
 func _audit_registration() -> void:
 	print("Auditing component registration.")
-	
-	var children = get_children()
+	print(actor.components.get_children())
+	var component_nodes = actor.components.get_children()
 	# Register any new children
-	for child in children:
-		_register_component(child)
+	for component in component_nodes:
+		_register_component(component)
 	
 	# Clean up dangling references in the registry
 	for component_name in components:
 		var component = components[component_name]
-		if component not in children:
+		if component not in component_nodes:
 			# This is a band-aid that just prevents crashing when we close the game scene.
 			# The components actions won't be unregistered if it is freed before unregistration.
 			# TODO: learn how to actually handle object clean-up
@@ -99,3 +84,20 @@ func _notification(what) -> void:
 	if what == NOTIFICATION_CHILD_ORDER_CHANGED:
 		print("order changed")
 		_audit_registration()
+
+
+func get_component(component_name: String) -> Component:
+	print("getting component: " + component_name)
+	if not components.has(component_name):
+		_load_component(component_name)
+	var component: Component = components[component_name]
+	return component
+
+
+func _load_component(component_name: String) -> void:
+	print("loading component: " + component_name)
+	var component_script_name: String = _normalize_component_path(component_name)
+	var script = load(component_script_name)
+	var component = script.new() as Component
+	component.name=component_name
+	add_child(component)

@@ -1,23 +1,27 @@
 class_name StateMachine
 extends Node
 
-@export
-var starting_state: State
 var current_state: State
+var states: Dictionary = {"null": null}
 
-# Initialize the state machine by giving each child state a reference to the
-# parent object it belongs to and enter the default starting_state.
-func init(actor: CharacterBody2D, mediator) -> void:
+# Initialize the state machine, giving each child state a reference to
+# Some resources that they will need
+func init(actor: CharacterBody2D, mediator: Mediator) -> void:
 	print("initializing state machine")
 	var animation_player = mediator.request("get_animation_player")
-	for child in get_children():
-		child.actor = actor
-		child.animation_player = animation_player
-		child.mediator = mediator
-		# TODO: Remove these once the component manager is working
+	for state in actor.states.values():
+		states[state.name] = state
+		state.state_machine = self
+		state.actor = actor
+		state.animation_player = animation_player
+		state.mediator = mediator
 	print("State machine initialized, setting initial state.")
-	change_state(starting_state)
+	change_state(actor.states.get(actor.starting_state))
 
+func get_state(state_name: String) -> State:
+	if state_name in states:
+		return states[state_name]
+	return null
 
 # Change to the new state by first calling any exit logic on the current state.
 func change_state(new_state: State) -> void:
@@ -27,7 +31,6 @@ func change_state(new_state: State) -> void:
 		current_state.exit()
 	current_state = new_state
 	current_state.enter()
-
 
 # Pass through functions for the parent to call,
 # handling state changes as needed.

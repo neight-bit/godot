@@ -28,7 +28,7 @@ func process_input(_event: InputEvent) -> State:
 		return dash_state
 	if mediator.request("get_climb"):
 		return climb_state
-	if mediator.request("wants_jump"):
+	if mediator.request("get_wants_jump"):
 		# First see if the actor is elegible to use jump buffer.
 		# This is also so that an early jump button press is not accidentally interpreted
 		# as an attempt to double-jump
