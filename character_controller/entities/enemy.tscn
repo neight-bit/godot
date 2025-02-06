@@ -1,0 +1,23 @@
+[gd_scene load_steps=8 format=3 uid="uid://dcgifahu7d6l1"]
+
+[ext_resource type="PackedScene" uid="uid://f2o7mlu8m06j" path="res://entities/actor.tscn" id="1_iwn5m"]
+[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/component_scenes/attack_component.tscn" id="2_ih7sk"]
+[ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/component_scenes/climb_component.tscn" id="3_nskfq"]
+[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/component_scenes/dash_component.tscn" id="4_chc55"]
+[ext_resource type="PackedScene" uid="uid://b32p1jf1lg0v" path="res://components/component_scenes/hurtbox_component.tscn" id="5_swrl1"]
+[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/component_scenes/jump_component.tscn" id="6_jirbu"]
+[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/component_scenes/move_component.tscn" id="7_u8gvb"]
+
+[node name="enemy" instance=ExtResource("1_iwn5m")]
+
+[node name="attack_component" parent="components" index="3" instance=ExtResource("2_ih7sk")]
+
+[node name="cimb_component" parent="components" index="4" instance=ExtResource("3_nskfq")]
+
+[node name="dash_component" parent="components" index="5" instance=ExtResource("4_chc55")]
+
+[node name="hurtbox_component" parent="components" index="6" instance=ExtResource("5_swrl1")]
+
+[node name="jump_component" parent="components" index="7" instance=ExtResource("6_jirbu")]
+
+[node name="move_component" parent="components" index="8" instance=ExtResource("7_u8gvb")]

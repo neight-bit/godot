@@ -1,23 +1,16 @@
-[gd_scene load_steps=25 format=3 uid="uid://f2o7mlu8m06j"]
+[gd_scene load_steps=18 format=3 uid="uid://f2o7mlu8m06j"]
 
 [ext_resource type="Script" path="res://entities/actor.gd" id="1_viy72"]
 [ext_resource type="PackedScene" uid="uid://jlo3cy0u2kuq" path="res://states/state_machine.tscn" id="7_g5vrn"]
 [ext_resource type="PackedScene" uid="uid://d02bv2ks0n1bm" path="res://states/states/airborne_attack.tscn" id="13_i16ye"]
-[ext_resource type="PackedScene" uid="uid://b2ncvdjudr2jd" path="res://components/component_scenes/attack_component.tscn" id="13_qb81i"]
 [ext_resource type="PackedScene" uid="uid://bg3smcilqln5q" path="res://scenes/mediator.tscn" id="13_u51o7"]
 [ext_resource type="PackedScene" uid="uid://dcsjypjeyc0pl" path="res://states/states/attack.tscn" id="14_5ut45"]
-[ext_resource type="PackedScene" uid="uid://dloj4ukakua6m" path="res://components/component_scenes/input_component.tscn" id="14_ggcf8"]
 [ext_resource type="PackedScene" uid="uid://dgmckpihq1n42" path="res://components/component_scenes/base_component.tscn" id="14_tegxw"]
 [ext_resource type="PackedScene" uid="uid://wv3of801cnel" path="res://states/states/base_state.tscn" id="15_tjdj2"]
-[ext_resource type="PackedScene" uid="uid://cyrgvao5h26cn" path="res://components/component_scenes/climb_component.tscn" id="15_wiw2h"]
 [ext_resource type="PackedScene" uid="uid://b1vsy2cykpjfj" path="res://states/states/climb.tscn" id="16_jkr6y"]
 [ext_resource type="PackedScene" uid="uid://dfega4rxiaor" path="res://scenes/component_manager.tscn" id="16_kkskd"]
-[ext_resource type="PackedScene" uid="uid://cwa20brakp4e3" path="res://components/component_scenes/dash_component.tscn" id="16_ubf6d"]
-[ext_resource type="PackedScene" uid="uid://b32p1jf1lg0v" path="res://components/component_scenes/hurtbox_component.tscn" id="17_3f3xe"]
 [ext_resource type="PackedScene" uid="uid://cbtl3lhf8jhb4" path="res://states/states/dash.tscn" id="17_5ybow"]
-[ext_resource type="PackedScene" uid="uid://s4mgfh0o2gqo" path="res://components/component_scenes/jump_component.tscn" id="18_16bag"]
 [ext_resource type="PackedScene" uid="uid://l6ft28uu5324" path="res://states/states/fall.tscn" id="18_tv8ma"]
-[ext_resource type="PackedScene" uid="uid://dnyh07h25f85g" path="res://components/component_scenes/move_component.tscn" id="19_1ivan"]
 [ext_resource type="PackedScene" uid="uid://3v3pptw4ot4f" path="res://states/states/idle.tscn" id="19_px25o"]
 [ext_resource type="PackedScene" uid="uid://c58amoh8o2qqn" path="res://components/component_scenes/null_component.tscn" id="20_fws0m"]
 [ext_resource type="PackedScene" uid="uid://krts8c2ri2pq" path="res://states/states/jump.tscn" id="20_v42fl"]
@@ -47,38 +40,13 @@ actor = NodePath("..")
 
 [node name="component_manager" parent="." instance=ExtResource("16_kkskd")]
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position_smoothing_speed = 10.0
-
 [node name="components" type="Node2D" parent="."]
 
-[node name="attack_component" parent="components" instance=ExtResource("13_qb81i")]
-
 [node name="BaseComponent" parent="components" instance=ExtResource("14_tegxw")]
-
-[node name="climb_component" parent="components" instance=ExtResource("15_wiw2h")]
-
-[node name="dash_component" parent="components" instance=ExtResource("16_ubf6d")]
-dash_time = 0.25
-dash_cooldown_time = 1.0
-_can_dash = true
-_can_air_dash = true
-_can_jump_while_dashing = true
-_can_jump_while_air_dashing = true
-enabled = true
-
-[node name="hurtbox_component" parent="components" instance=ExtResource("17_3f3xe")]
-visible = false
-
-[node name="jump_component" parent="components" instance=ExtResource("18_16bag")]
-
-[node name="move_component" parent="components" instance=ExtResource("19_1ivan")]
 
 [node name="null_component" parent="components" instance=ExtResource("20_fws0m")]
 
 [node name="renderer_component" parent="components" instance=ExtResource("21_1vs8a")]
-
-[node name="input_component" parent="components" instance=ExtResource("14_ggcf8")]
 
 [node name="states" type="Node" parent="."]
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://dwi8nw2iu81xt"]
+[gd_scene load_steps=7 format=3 uid="uid://dwi8nw2iu81xt"]
 
-[ext_resource type="PackedScene" uid="uid://f2o7mlu8m06j" path="res://entities/actor.tscn" id="1_cc2nb"]
 [ext_resource type="Texture2D" uid="uid://qmr5e8w0jwun" path="res://icon.svg" id="2_lf3c8"]
+[ext_resource type="PackedScene" uid="uid://dcgifahu7d6l1" path="res://entities/enemy.tscn" id="4_rc67f"]
+[ext_resource type="PackedScene" uid="uid://c33tv3e5nm8cv" path="res://entities/player.tscn" id="5_t280p"]
 [ext_resource type="PackedScene" uid="uid://dmu6idgk1s0pb" path="res://assets/platform.tscn" id="6_ml61j"]
 [ext_resource type="PackedScene" uid="uid://ddnaqyy05oyru" path="res://assets/ladder.tscn" id="7_nc1xx"]
 
@@ -42,5 +43,8 @@ scale = Vector2(32, 1)
 position = Vector2(1328, 312)
 height_in_tiles = 16
 
-[node name="actor" parent="." instance=ExtResource("1_cc2nb")]
-position = Vector2(619, 136)
+[node name="Player" parent="." instance=ExtResource("5_t280p")]
+position = Vector2(316, 131)
+
+[node name="enemy" parent="." instance=ExtResource("4_rc67f")]
+position = Vector2(546, 131)
