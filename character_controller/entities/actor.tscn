@@ -29,6 +29,7 @@ actor_name = "base_actor"
 starting_state = "idle"
 
 [node name="collider" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("CapsuleShape2D_tw8kx")
 
 [node name="mediator" parent="." node_paths=PackedStringArray("component_manager", "state_machine", "actor") instance=ExtResource("13_u51o7")]

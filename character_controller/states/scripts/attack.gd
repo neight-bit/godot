@@ -2,13 +2,16 @@ extends State
 
 func enter():
 	super()
-	mediator.request("start_attack", ["grounded_attack"])
+	mediator.request("attack", ["grounded_attack"])
 
 func process_input(event: InputEvent) -> State:
 	if animation_player.is_playing():
-		if not mediator.request("can_cancel_attack"):
+		if not mediator.request("can_cancel_attack", ["grounded_attack"]):
 			return null
 	if mediator.request("get_jump") and actor.is_on_floor():
+		# might be able to remove the is_on_floor check
+		# to allow transitioning into 2nd jump...
+		# needs testing
 		return get_state("jump")
 	if mediator.request("get_dash"):
 		return get_state("dash")

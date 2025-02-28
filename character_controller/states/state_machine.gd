@@ -3,12 +3,15 @@ extends Node
 
 var current_state: State
 var states: Dictionary = {"null": null}
+var actor: CharacterBody2D
+var animation_player: AnimationPlayer
 
 # Initialize the state machine, giving each child state a reference to
 # Some resources that they will need
-func init(actor: CharacterBody2D, mediator: Mediator) -> void:
+func init(actor_instance: CharacterBody2D, mediator: Mediator) -> void:
 	print("initializing state machine")
-	var animation_player = mediator.request("get_animation_player")
+	animation_player = mediator.request("get_animation_player")
+	actor = actor_instance
 	for state in actor.states.values():
 		states[state.name] = state
 		state.state_machine = self

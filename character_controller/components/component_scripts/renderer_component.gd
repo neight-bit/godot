@@ -4,10 +4,13 @@ extends Component
 var animation_base_offsets := {}
 
 @onready
-var animation_player: AnimationPlayer = $animation_player
+var animation_wrapper: Node2D = $animation
 
 @onready
-var animations: Sprite2D = $animations
+var animation_player: AnimationPlayer = $animation/animation_player
+
+@onready
+var sprites: Sprite2D = $animation/sprites
 
 func _ready() -> void:
 	print("Initializing Renderer component")
@@ -21,8 +24,16 @@ func _ready() -> void:
 		["animation_flip_h", 				self, {"value": false}],
 		["set_animation_orientation",		self, {"value": 0}],
 		["update_animation_orientation",	self, {"value": 0}],
-		["flip_animation_X_offset",			self, {"value": 0}]
+		["flip_animation_X_offset",			self, {"value": 0}],
+		["play_animation",					self, {"animation_name": ""}]
 	]
+
+func play_animation(animation_name: String) -> void:
+	var orientation = mediator.request("get_orientation")
+	if orientation and orientation < 1:
+		flip_animation_X_offset(orientation, animation_name)
+	animation_player.play(animation_name)
+
 
 func register_offsets() -> void:
 	"""A registry of the sprite offset (Vector2) for each animation
@@ -32,7 +43,7 @@ func register_offsets() -> void:
 		var animation = animation_player.get_animation(animation_name)
 		for track_index in animation.get_track_count():
 			var property_path = animation.track_get_path(track_index)
-			if str(property_path).ends_with("animations:offset"):
+			if str(property_path).ends_with("sprites:offset"):
 				if ! animation_base_offsets.has(animation_name):
 					animation_base_offsets[animation_name] = animation.track_get_key_value(track_index, 0)
 				break
@@ -54,7 +65,7 @@ func get_current_animation() -> String:
 	return animation_player.current_animation
 
 func animation_flip_h(value: bool) -> void:
-	animations.flip_h = value
+	sprites.flip_h = value
 
 func update_animation_orientation(value: int):
 	set_animation_orientation(value)
@@ -62,22 +73,18 @@ func update_animation_orientation(value: int):
 
 func set_animation_orientation(value: int) -> void:
 	if value < 0:
-		animations.flip_h = true
+		sprites.flip_h = true
 	elif value > 0:
-		animations.flip_h = false
+		sprites.flip_h = false
 	else:
 		pass
 
-func flip_animation_X_offset(value) -> void:
-	var animation_names: Array = animation_player.get_animation_list()
-	for animation_name in animation_names:
-		var animation: Animation = animation_player.get_animation(animation_name)
-		var track_index = animation.find_track("animations:offset", Animation.TYPE_VALUE)
-		if track_index != -1:
-			var offset_value = animation.track_get_key_value(track_index, 0)
-			var base_offset: Vector2 = get_base_offset(animation_name)
-			if value == 1:
-				offset_value.x = base_offset.x
-			elif value == -1:
-				offset_value.x = -base_offset.x
-			animation.track_set_key_value(track_index, 0, offset_value)
+func flip_animation_X_offset(value, animation_name: String="") -> void:
+	if not animation_name:
+		animation_name = get_current_animation()
+	var offset = get_base_offset(animation_name)
+	if offset:
+		if value == 1:
+			animation_wrapper.position.x = 0
+		elif value == -1:
+			animation_wrapper.position.x = -2 * offset.x

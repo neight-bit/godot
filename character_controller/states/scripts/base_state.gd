@@ -14,8 +14,8 @@ func get_state(state_name):
 func enter() -> void:
 	if not animation_name:
 		animation_name = self.name
-	if animation_name and animation_player:
-		animation_player.play(animation_name)
+	print("base state entering " + animation_name)
+	mediator.request("play_animation", [animation_name])
 
 func exit() -> void:
 	pass

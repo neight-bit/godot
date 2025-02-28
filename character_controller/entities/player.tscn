@@ -14,6 +14,9 @@
 [node name="Camera2D" type="Camera2D" parent="." index="0"]
 position_smoothing_speed = 10.0
 
+[node name="collider" parent="." index="1"]
+visible = true
+
 [node name="attack_component" parent="components" index="3" instance=ExtResource("2_56u5e")]
 
 [node name="cimb_component" parent="components" index="4" instance=ExtResource("3_dqu1p")]
@@ -21,6 +24,7 @@ position_smoothing_speed = 10.0
 [node name="dash_component" parent="components" index="5" instance=ExtResource("4_rd13r")]
 
 [node name="hurtbox_component" parent="components" index="6" instance=ExtResource("5_gwr0t")]
+visible = false
 
 [node name="input_component" parent="components" index="7" instance=ExtResource("6_gdqqr")]
 

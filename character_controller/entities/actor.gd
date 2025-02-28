@@ -26,7 +26,7 @@ func _ready() -> void:
 	component_manager.init(self, mediator)
 	mediator.init(self, state_machine, component_manager )
 	state_machine.init(self, mediator)
-	print(actor_name + " player initialized")
+	print(actor_name + " actor initialized")
 
 func _unhandled_input(event: InputEvent) -> void:
 	state_machine.process_input(event)

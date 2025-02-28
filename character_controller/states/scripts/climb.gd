@@ -39,6 +39,9 @@ func process_physics(delta: float) -> State:
 			return idle_state
 		return idle_state
 	
+	# calling animation_player.play here directly instead of requesting through the mediator
+	# is probably fine, because the player orientation doesn't change, and we want granular control
+	# over pausing/playing the animation
 	var climb_velocity = mediator.request("get_climb_velocity")
 	if climb_velocity:
 		actor.velocity.y = climb_velocity

@@ -7,6 +7,7 @@ var cancelable_attacks: Dictionary = {
 }
 
 var wants_attack: bool = false
+var current_weapon: String = "sword"
 
 func _ready():
 	print("initializing attack component")
@@ -16,6 +17,7 @@ func _ready():
 		["get_attack",			self, {}],
 		["wants_attack",		self, {}],
 		["can_cancel_attack",	self, {"attack_name": ""}],
+		["attack",				self, {"attack_name": "grounded_attack"}]
 	]
 
 func set_wants_attack(value: bool) -> void:
@@ -25,7 +27,11 @@ func get_wants_attack() -> bool:
 	return wants_attack
 
 func get_attack() -> bool:
+	"""Flesh this out with additional conditional logic"""
 	return wants_attack
-	
+
 func can_cancel_attack(attack_name: String) -> bool:
 	return cancelable_attacks.get(attack_name, false)
+
+func attack(attack_name: String) -> void:
+	pass
