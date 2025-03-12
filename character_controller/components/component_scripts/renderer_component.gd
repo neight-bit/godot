@@ -4,13 +4,13 @@ extends Component
 var animation_base_offsets := {}
 
 @onready
-var animation_wrapper: Node2D = $animation
+var animation_wrapper: Node2D = $animation_wrapper
 
 @onready
-var animation_player: AnimationPlayer = $animation/animation_player
+var animation_player: AnimationPlayer = $animation_wrapper/animation_player
 
 @onready
-var sprites: Sprite2D = $animation/sprites
+var sprites: Sprite2D = $animation_wrapper/sprites
 
 func _ready() -> void:
 	print("Initializing Renderer component")
@@ -24,14 +24,14 @@ func _ready() -> void:
 		["animation_flip_h", 				self, {"value": false}],
 		["set_animation_orientation",		self, {"value": 0}],
 		["update_animation_orientation",	self, {"value": 0}],
-		["flip_animation_X_offset",			self, {"value": 0}],
+		["flip_animation_x_offset",			self, {"value": 0}],
 		["play_animation",					self, {"animation_name": ""}]
 	]
 
 func play_animation(animation_name: String) -> void:
 	var orientation = mediator.request("get_orientation")
 	if orientation and orientation < 1:
-		flip_animation_X_offset(orientation, animation_name)
+		flip_animation_x_offset(orientation, animation_name)
 	animation_player.play(animation_name)
 
 
@@ -52,6 +52,7 @@ func register_offsets() -> void:
 func OnActorOrientationEvent(event: Event) -> void:
 	if event.actor == actor:
 		update_animation_orientation(event.orientation)
+		#mediator.request("update_hitbox_orientation", [event.orientation])
 
 func get_base_offset(animation_name: String):
 	if animation_base_offsets.has(animation_name):
@@ -68,8 +69,8 @@ func animation_flip_h(value: bool) -> void:
 	sprites.flip_h = value
 
 func update_animation_orientation(value: int):
-	set_animation_orientation(value)
-	flip_animation_X_offset(value)
+	flip_animation_x_offset(value)
+	self.scale.x = value * abs(self.scale.x)
 
 func set_animation_orientation(value: int) -> void:
 	if value < 0:
@@ -79,12 +80,12 @@ func set_animation_orientation(value: int) -> void:
 	else:
 		pass
 
-func flip_animation_X_offset(value, animation_name: String="") -> void:
+func flip_animation_x_offset(value, animation_name: String="") -> void:
 	if not animation_name:
 		animation_name = get_current_animation()
 	var offset = get_base_offset(animation_name)
 	if offset:
 		if value == 1:
-			animation_wrapper.position.x = 0
+			self.position.x = 0
 		elif value == -1:
-			animation_wrapper.position.x = -2 * offset.x
+			self.position.x *= offset.x

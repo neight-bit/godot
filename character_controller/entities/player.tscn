@@ -22,6 +22,13 @@ visible = true
 [node name="cimb_component" parent="components" index="4" instance=ExtResource("3_dqu1p")]
 
 [node name="dash_component" parent="components" index="5" instance=ExtResource("4_rd13r")]
+dash_time = 0.25
+dash_cooldown_time = 1.0
+_can_dash = true
+_can_air_dash = true
+_can_jump_while_dashing = true
+_can_jump_while_air_dashing = true
+enabled = true
 
 [node name="hurtbox_component" parent="components" index="6" instance=ExtResource("5_gwr0t")]
 visible = false

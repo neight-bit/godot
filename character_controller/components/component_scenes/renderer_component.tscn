@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bp6b5okt0s1ib"]
+[gd_scene load_steps=22 format=3 uid="uid://bp6b5okt0s1ib"]
 
 [ext_resource type="Script" path="res://components/component_scripts/renderer_component.gd" id="1_imeef"]
 [ext_resource type="Texture2D" uid="uid://drux1vcwlkiab" path="res://assets/player/sprites/01_soldier_idle.png" id="2_x1y3s"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dfocmy83rgubi" path="res://assets/player/sprites/01_soldier_jump_03_landing.png" id="7_qgvlv"]
 [ext_resource type="Texture2D" uid="uid://bckihkeugb7ty" path="res://assets/player/sprites/01_soldier_run.png" id="8_2i1m1"]
 [ext_resource type="Texture2D" uid="uid://dslrs0rk5e7px" path="res://assets/player/sprites/01_soldier_jump_attack.png" id="9_3qidc"]
+[ext_resource type="PackedScene" uid="uid://imt1nahcnnum" path="res://components/component_scenes/hitbox_component.tscn" id="10_6v8gh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_t68d1"]
 custom_solver_bias = 1.0
@@ -20,7 +21,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -32,7 +33,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -44,7 +45,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -56,7 +57,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -68,7 +69,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -76,6 +77,30 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("animation_wrapper/hitbox_component/hitbox_collision_area/hitbox_collision_shape:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(8, 5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("animation_wrapper/hitbox_component/hitbox_collision_area/hitbox_collision_shape:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_hqhbi"]
@@ -85,7 +110,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -97,7 +122,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -109,7 +134,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -121,7 +146,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -133,7 +158,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -150,7 +175,7 @@ step = 0.03125
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -162,7 +187,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -174,7 +199,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -186,7 +211,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -198,7 +223,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -206,6 +231,47 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(26, -1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("animation_wrapper/hitbox_component/hitbox_collision_area/hitbox_collision_shape:position")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.0625, 0.125, 0.21875, 0.34375, 0.46875, 0.53125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(8, 5), Vector2(7, -1), Vector2(4, -7), Vector2(31, -5.5), Vector2(47, -1), Vector2(49, 2), Vector2(8, 5)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("animation_wrapper/hitbox_component/hitbox_collision_area/hitbox_collision_shape:scale")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.21875, 0.34375, 0.46875),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2(1, 1), Vector2(3, 1.25), Vector2(2, 1), Vector2(1, 1)]
+}
+tracks/7/type = "method"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("animation_wrapper/hitbox_component")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0.21875, 0.53125),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"set_hitbox_enabled"
+}, {
+"args": [false],
+"method": &"set_hitbox_enabled"
+}]
 }
 
 [sub_resource type="Animation" id="Animation_v805a"]
@@ -216,7 +282,7 @@ step = 0.125
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -228,7 +294,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -240,7 +306,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -252,7 +318,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -264,7 +330,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -281,7 +347,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -293,7 +359,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -305,7 +371,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -317,7 +383,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -329,7 +395,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -347,7 +413,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -359,7 +425,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -371,7 +437,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -383,7 +449,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -395,7 +461,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -412,7 +478,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -424,7 +490,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -436,7 +502,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -448,7 +514,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -460,7 +526,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -477,7 +543,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -489,7 +555,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -501,7 +567,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -513,7 +579,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -525,7 +591,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -543,7 +609,7 @@ step = 0.0625
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("animation/sprites:texture")
+tracks/0/path = NodePath("animation_wrapper/sprites:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -555,7 +621,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("animation/sprites:hframes")
+tracks/1/path = NodePath("animation_wrapper/sprites:hframes")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -567,7 +633,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("animation/sprites:vframes")
+tracks/2/path = NodePath("animation_wrapper/sprites:vframes")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -579,7 +645,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("animation/sprites:frame")
+tracks/3/path = NodePath("animation_wrapper/sprites:frame")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -591,7 +657,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("animation/sprites:offset")
+tracks/4/path = NodePath("animation_wrapper/sprites:offset")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -614,22 +680,25 @@ _data = {
 "move": SubResource("Animation_k37s3")
 }
 
-[node name="renderer_component" type="Node2D"]
+[node name="renderer_component" type="Node2D" node_paths=PackedStringArray("child_components")]
 script = ExtResource("1_imeef")
+child_components = [NodePath("animation_wrapper/hitbox_component")]
 
-[node name="collider" type="CollisionShape2D" parent="."]
+[node name="animation reference collider" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_t68d1")
 debug_color = Color(0.546387, 0.532842, 0.523814, 0.42)
 
-[node name="animation" type="Node2D" parent="."]
+[node name="animation_wrapper" type="Node2D" parent="."]
 
-[node name="animation_player" type="AnimationPlayer" parent="animation"]
+[node name="animation_player" type="AnimationPlayer" parent="animation_wrapper"]
 root_node = NodePath("../..")
 libraries = {
 "": SubResource("AnimationLibrary_s06pw")
 }
 autoplay = "idle"
 
-[node name="sprites" type="Sprite2D" parent="animation"]
+[node name="sprites" type="Sprite2D" parent="animation_wrapper"]
 texture = ExtResource("2_x1y3s")
 hframes = 18
+
+[node name="hitbox_component" parent="animation_wrapper" instance=ExtResource("10_6v8gh")]
