@@ -31,9 +31,16 @@ func _audit_registration() -> void:
 	print("Auditing component registration.")
 	print(actor.components.get_children())
 	var component_nodes = actor.components.get_children()
+	for node in component_nodes:
+		for child in node.child_components:
+			component_nodes.append(child)
 	# Register any new children
 	for component in component_nodes:
 		_register_component(component)
+		var child_components = component.child_components
+		for child_component in child_components:
+			print("registering child component " + str(child_component))
+			_register_component(child_component)
 	
 	# Clean up dangling references in the registry
 	for component_name in components:

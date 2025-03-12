@@ -7,6 +7,9 @@ var enabled: bool = true
 @export
 var manager: ComponentManager
 
+@export
+var child_components: Array[Component]
+
 var mediator: Mediator
 
 var actions: Array = []
